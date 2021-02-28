@@ -1,6 +1,7 @@
 import numpy as np
 from random import choice
 from collections import Counter
+from nova_solucao import Posicao_Possibilidades, monta_arvore
 
 CONJUNTO_COMPLETO = { 1, 2, 3, 4, 5, 6, 7, 8, 9 }
 
@@ -14,11 +15,6 @@ MATRIZ_ENTRADA_01 = np.array([
         [1, 0, 0, 5, 7, 0, 0, 8, 0],
         [0, 7, 6, 1, 4, 0, 0, 2, 0],
         [0, 0, 0, 0, 0, 0, 7, 0, 0]
-        # (1, 2) = > [9, 5] = > 9
-        # (1, 3) = > [2, 4] = > 4
-        # (2, 3) = > [4, 6] = > 6
-        # (3, 7) = > [9, 7] = > 9
-        # (7, 5) = > [8, 9] = > 8
 ])
 
 MATRIZ_ENTRADA_02 = np.array([
@@ -31,12 +27,37 @@ MATRIZ_ENTRADA_02 = np.array([
         [0, 0, 0,  0, 0, 0,  7, 0, 0],
         [0, 7, 0,  0, 0, 3,  0, 0, 6],
         [0, 4, 0,  2, 0, 0,  0, 0, 5]
-        #(0,8) => [9, 2] => 9
-        #(1,8) => [1, 2] => 2
-        #(3,1) => [2, 5] => 2
-        #(4,8) => [9, 2] => 9
-        #(7,4) => [1, 5] => 5
     ])
+MATRIZ_ENTRADA_02_RESOLVIDA = np.array([
+        [6, 1, 8,  7, 2, 5,  4, 3, 9],
+        [7, 5, 4,  3, 9, 6,  2, 8, 1],
+        [3, 9, 2,  8, 1, 4,  6, 5, 7],
+        [1, 2, 7,  6, 8, 9,  5, 4, 3],
+        [4, 8, 5,  1, 3, 7,  9, 6, 2],
+        [9, 6, 3,  5, 4, 2,  1, 7, 8],
+        [5, 3, 1,  9, 6, 8,  7, 2, 4],
+        [2, 7, 9,  4, 5, 3,  8, 1, 6],
+        [8, 4, 6,  2, 7, 1,  3, 9, 5]
+    ])
+
+#MATRIZ_ENTRADA_02[][] = MATRIZ_ENTRADA_02_RESOLVIDA[][]
+# 1 Lote
+'''
+MATRIZ_ENTRADA_02[0][8] = MATRIZ_ENTRADA_02_RESOLVIDA[0][8]
+MATRIZ_ENTRADA_02[1][8] = MATRIZ_ENTRADA_02_RESOLVIDA[1][8]
+MATRIZ_ENTRADA_02[3][1] = MATRIZ_ENTRADA_02_RESOLVIDA[3][1]
+MATRIZ_ENTRADA_02[4][8] = MATRIZ_ENTRADA_02_RESOLVIDA[4][8]
+MATRIZ_ENTRADA_02[7][4] = MATRIZ_ENTRADA_02_RESOLVIDA[7][4]
+'''
+# 2 Lote
+'''
+MATRIZ_ENTRADA_02[1][1] = MATRIZ_ENTRADA_02_RESOLVIDA[1][1]
+MATRIZ_ENTRADA_02[3][6] = MATRIZ_ENTRADA_02_RESOLVIDA[3][6]
+MATRIZ_ENTRADA_02[4][4] = MATRIZ_ENTRADA_02_RESOLVIDA[4][4]
+MATRIZ_ENTRADA_02[4][5] = MATRIZ_ENTRADA_02_RESOLVIDA[4][5]
+MATRIZ_ENTRADA_02[6][4] = MATRIZ_ENTRADA_02_RESOLVIDA[6][4]
+#MATRIZ_ENTRADA_02[6][5] = MATRIZ_ENTRADA_02_RESOLVIDA[6][5]
+'''
 
 MATRIZ_ENTRADA_01_RESOLVIDA = np.array([
         [6, 9, 3, 8, 5, 4, 2, 7, 1],
@@ -50,55 +71,14 @@ MATRIZ_ENTRADA_01_RESOLVIDA = np.array([
         [2, 4, 8, 9, 3, 6, 7, 1, 5]
     ])
 
-MATRIZ_ENTRADA_02_RESOLVIDA = np.array([
-        [6, 1, 8,  7, 2, 5,  4, 3, 9],
-        [7, 5, 4,  3, 9, 6,  2, 8, 1],
-        [3, 9, 2,  8, 1, 4,  6, 5, 7],
-        [1, 2, 7,  6, 8, 9,  5, 4, 3],
-        [4, 8, 5,  1, 3, 7,  9, 6, 2],
-        [9, 6, 3,  5, 4, 2,  1, 7, 8],
-        [5, 3, 1,  9, 6, 8,  7, 2, 4],
-        [2, 7, 9,  4, 5, 3,  8, 1, 6],
-        [8, 4, 6,  2, 7, 1,  3, 9, 5]
-        #(0,8) => [9, 2] => 9
-        #(1,8) => [1, 2] => 2
-        #(3,1) => [2, 5] => 2
-        #(4,8) => [9, 2] => 9
-        #(7,4) => [1, 5] => 5
-    ])
+
 
 def inicio():
-
-    #
     achou_solucao = False
     LOOPS = 1000
     for i in range(LOOPS):
-        matriz_teste = MATRIZ_ENTRADA_02.copy()
-        #(0,8) => [9, 2] => 9
-        #(1,8) => [1, 2] => 2
-        #(3,1) => [2, 5] => 2
-        #(4,8) => [9, 2] => 9
-        #(7,4) => [1, 5] => 5
-        matriz_teste[0][8] = 9
-        matriz_teste[1][8] = 1
-        matriz_teste[3][1] = 2
-        matriz_teste[4][8] = 2
-        matriz_teste[7][4] = 5
-        #(1, 1) = > [3, 5] = > 5
-        #(3, 6) = > [1, 5] = > 5
-        #(4, 4) = > [3, 7] = > 7
-        #(4, 5) = > [5, 7] = > 7
-        #(6, 3) = > [9, 4] = > 4
-        #(6, 4) = > [1, 6] = > 6
-        #(7, 3) = > [9, 4] = > 9
-        matriz_teste[1][1] = 5
-        matriz_teste[3][6] = 5
-        matriz_teste[4][4] = 3
-        matriz_teste[4][5] = 7
-        matriz_teste[6][3] = 9
-        matriz_teste[6][4] = 6
-        matriz_teste[7][3] = 4
-        mat, eh_valida = validacao(MATRIZ_ENTRADA_01)
+        matriz_entrada = MATRIZ_ENTRADA_02
+        mat, eh_valida = validacao(matriz_entrada)
         if eh_valida:
             achou_solucao = True
             print('===========================================')
@@ -111,7 +91,34 @@ def inicio():
         print('===========================================')
         print('Em {} interações, não achou a solução: '.format(LOOPS))
         print('===========================================')
+        print('Total de Possibilidades: {} '.format(retorna_total_possibilidades(matriz_entrada)))
+        print('Lista de Posição Possibilidades: \n ')
+        for pp in retorna_posicoes_possibilidades(matriz_entrada):
+            print(pp)
+        teste_matriz_02(matriz_entrada)
         
+def retorna_total_possibilidades(matriz):
+    total = 1
+    for i in range(0, 9):
+        for j in range(0, 9):
+            if matriz[i][j] == 0:
+                lista = retorna_qtd_possibs_celula(i, j, matriz)
+                if len(lista) == 2:
+                    total = total * len(lista)
+    return total
+
+def retorna_posicoes_possibilidades(matriz):
+    lista_possibs = []
+    for i in range(0, 9):
+        for j in range(0, 9):
+            if matriz[i][j] == 0:
+                lista = retorna_qtd_possibs_celula(i, j, matriz)
+                
+                if len(lista) == 2:
+                    lista_possibs.append(Posicao_Possibilidades(i,j,lista))
+    return lista_possibs
+                
+
 
 def validacao(matriz):
     
@@ -119,20 +126,26 @@ def validacao(matriz):
         for j in range(0, 9):
             if matriz[i][j] == 0:
                 lista = retorna_qtd_possibs_celula(i, j, matriz)
-                #'''
+                '''
                 if len(lista) == 2:
                     print('({},{}) => {} => {} '.format(i,j,lista, choice(lista)))
-                #'''
+                '''
                 if len(lista) == 1:
                     matriz[i][j] = lista[0]
     
     matriz_completa = retorna_matriz_completa(matriz)
-    #print(matriz_completa)
     return matriz_completa,verifica_matriz_eh_valida(matriz_completa)
 
 def existe_valor_repetido(array):
     lista = [item for item, count in Counter(array).items() if count > 1]
     return (len(lista) > 0)
+
+def retorna_array_sem_zeros(array):
+    saida = []
+    for item in array:
+        if item != 0:
+            saida.append(item)
+    return saida
 
 def verifica_matriz_eh_valida(matriz):
     # verifica nas linhas
@@ -164,6 +177,36 @@ def verifica_matriz_eh_valida(matriz):
         return False
     return True
     
+def verifica_matriz_incompleta_esta_valida(matriz):
+    # verifica nas linhas
+    for i in range(0,9):
+        linha_com_duplicacao = existe_valor_repetido(retorna_array_sem_zeros(matriz[i]))
+        if linha_com_duplicacao:
+            return False
+    # verifica nas colunas
+    for j in range(0, 9):
+        coluna_com_duplicacao = existe_valor_repetido(retorna_array_sem_zeros(matriz[:, j]))
+        if coluna_com_duplicacao:
+            return False
+
+    quad_0 = retorna_array_sem_zeros(retorna_elementos_quadrante(0, matriz))
+    quad_1 = retorna_array_sem_zeros(retorna_elementos_quadrante(1, matriz))
+    quad_2 = retorna_array_sem_zeros(retorna_elementos_quadrante(2, matriz))
+    quad_3 = retorna_array_sem_zeros(retorna_elementos_quadrante(3, matriz))
+    quad_4 = retorna_array_sem_zeros(retorna_elementos_quadrante(4, matriz))
+    quad_5 = retorna_array_sem_zeros(retorna_elementos_quadrante(5, matriz))
+    quad_6 = retorna_array_sem_zeros(retorna_elementos_quadrante(6, matriz))
+    quad_7 = retorna_array_sem_zeros(retorna_elementos_quadrante(7, matriz))
+    quad_8 = retorna_array_sem_zeros(retorna_elementos_quadrante(8, matriz))
+
+    if existe_valor_repetido(quad_0) or existe_valor_repetido(quad_1) or existe_valor_repetido(quad_2):
+        return False
+    if existe_valor_repetido(quad_3) or existe_valor_repetido(quad_4) or existe_valor_repetido(quad_5):
+        return False
+    if existe_valor_repetido(quad_6) or existe_valor_repetido(quad_7) or existe_valor_repetido(quad_8):
+        return False
+    return True
+
 def retorna_matriz_completa(matriz):
     matriz.copy()
     matriz_inicial = matriz.copy()
@@ -290,3 +333,24 @@ def retorna_elementos_quadrante(quadrante, matriz):
             if matriz[i][j] != 0:
                 elementos.append(matriz[i][j])
     return elementos
+
+def teste_matriz_02(matriz_a_verificar):
+    p1 = Posicao_Possibilidades(0, 8,  [9, 2])
+    p2 = Posicao_Possibilidades(1, 8,  [1, 2])
+    p3 = Posicao_Possibilidades(3, 1,  [2, 5])
+    p4 = Posicao_Possibilidades(4, 8,  [9, 2])
+    p5 = Posicao_Possibilidades(7, 4,  [1, 5])
+    lista_possibilidades = [p1, p2, p3, p4, p5]
+    arvore = monta_arvore(lista_possibilidades)
+
+    for k,item_arvore in enumerate(arvore):
+        matriz_teste = matriz_a_verificar.copy()
+        texto_trincas = ''
+        for trinca in item_arvore:
+            texto_trincas = texto_trincas + str(trinca)
+            matriz_teste[trinca.linha][trinca.coluna] = trinca.valor
+        eh_valida = verifica_matriz_incompleta_esta_valida(matriz_teste)
+        if eh_valida:
+            print('Matriz {} Válida => {} => [{}]'.format(k,eh_valida, texto_trincas))
+        else:
+            print('Matriz {} Válida => {} '.format(k, eh_valida))

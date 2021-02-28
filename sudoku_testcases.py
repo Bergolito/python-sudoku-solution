@@ -75,6 +75,10 @@ class SudokuTestCases(TestCase):
         matriz_teste2[0][8] = 6
         matriz_teste2[8][8] = 2
         self.assertFalse(verifica_matriz_eh_valida(matriz_teste2))
-    
+    def test_array_sem_zeros(self):
+        array1 = [1,2,0,4,5,7,0]
+        self.assertEqual(len(retorna_array_sem_zeros(array1)),5)
+        array2 = [0,0,0,4,0,0,0]
+        self.assertEqual(len(retorna_array_sem_zeros(array2)),1)
 if __name__ == '__main__':
     SudokuTestCases.main()
