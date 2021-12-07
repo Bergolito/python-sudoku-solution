@@ -3,7 +3,7 @@ from random import choice
 from collections import Counter
 from nova_solucao import Posicao_Possibilidades, monta_arvore
 
-CONJUNTO_COMPLETO = { 1, 2, 3, 4, 5, 6, 7, 8, 9 }
+CONJUNTO_COMPLETO = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
 MATRIZ_ENTRADA_01 = np.array([
         [0, 0, 3, 0, 0, 0, 0, 0, 0],
@@ -57,7 +57,7 @@ MATRIZ_ENTRADA_02[4][4] = MATRIZ_ENTRADA_02_RESOLVIDA[4][4]
 MATRIZ_ENTRADA_02[4][5] = MATRIZ_ENTRADA_02_RESOLVIDA[4][5]
 MATRIZ_ENTRADA_02[6][4] = MATRIZ_ENTRADA_02_RESOLVIDA[6][4]
 #MATRIZ_ENTRADA_02[6][5] = MATRIZ_ENTRADA_02_RESOLVIDA[6][5]
-'''
+
 
 MATRIZ_ENTRADA_01_RESOLVIDA = np.array([
         [6, 9, 3, 8, 5, 4, 2, 7, 1],
@@ -70,7 +70,7 @@ MATRIZ_ENTRADA_01_RESOLVIDA = np.array([
         [5, 7, 6, 1, 4, 8, 9, 2, 3],
         [2, 4, 8, 9, 3, 6, 7, 1, 5]
     ])
-
+'''
 
 
 def inicio():
@@ -343,6 +343,7 @@ def teste_matriz_02(matriz_a_verificar):
     lista_possibilidades = [p1, p2, p3, p4, p5]
     arvore = monta_arvore(lista_possibilidades)
 
+    cont_matrizes_validas = 0
     for k,item_arvore in enumerate(arvore):
         matriz_teste = matriz_a_verificar.copy()
         texto_trincas = ''
@@ -351,6 +352,11 @@ def teste_matriz_02(matriz_a_verificar):
             matriz_teste[trinca.linha][trinca.coluna] = trinca.valor
         eh_valida = verifica_matriz_incompleta_esta_valida(matriz_teste)
         if eh_valida:
+            cont_matrizes_validas +=1
             print('Matriz {} Válida => {} => [{}]'.format(k,eh_valida, texto_trincas))
+        '''    
         else:
             print('Matriz {} Válida => {} '.format(k, eh_valida))
+        '''
+        
+    print('Matrizes Válidas => {} '.format(cont_matrizes_validas))
