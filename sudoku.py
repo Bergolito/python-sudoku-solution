@@ -1,7 +1,9 @@
 import numpy as np
 from random import choice
+from solucao_arvore_duas_possibs import Posicao_Possibilidades, monta_arvore_02_possibs
+from solucao_arvore_tres_possibs import Trinca
 from collections import Counter
-from nova_solucao import Posicao_Possibilidades, monta_arvore
+import time
 
 CONJUNTO_COMPLETO = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
@@ -74,6 +76,7 @@ MATRIZ_ENTRADA_01_RESOLVIDA = np.array([
 
 
 def inicio():
+    start = time.time()
     achou_solucao = False
     LOOPS = 1000
     for i in range(LOOPS):
@@ -91,12 +94,48 @@ def inicio():
         print('===========================================')
         print('Em {} interações, não achou a solução: '.format(LOOPS))
         print('===========================================')
-        print('Total de Possibilidades: {} '.format(retorna_total_possibilidades(matriz_entrada)))
-        print('Lista de Posição Possibilidades: \n ')
-        for pp in retorna_posicoes_possibilidades(matriz_entrada):
-            print(pp)
-        teste_matriz_02(matriz_entrada)
-        
+
+        lista_mat_validas_02_possibs = verifica_matriz_celulas_02_possibs(matriz_entrada)
+        # INFERIU (1,8,1)
+        #matriz_entrada[1][8] = 1
+        lista_mat_validas_03_possibs = verifica_matriz_celulas_03_possibs(matriz_entrada)
+
+        print(' Qtd total de listas : {} * {} = {}'.format(
+            len(lista_mat_validas_02_possibs),
+            len(lista_mat_validas_03_possibs),
+            (len(lista_mat_validas_02_possibs)*len(lista_mat_validas_03_possibs)))
+        )
+        lista_matrizes_combinada_02e03_possibs = []
+        for it_lista1 in lista_mat_validas_02_possibs:
+            for it_lista2 in lista_mat_validas_03_possibs:
+                lista_matrizes_combinada_02e03_possibs.append(it_lista1 + it_lista2)
+
+        #lista_mat_validas_04_possibs = verifica_matriz_celulas_04_possibs(matriz_entrada)
+
+    matrizes_combinadas_validas = []
+    contador_matrizes_combinadas_validas = 0
+    for k, item_lista in enumerate(lista_matrizes_combinada_02e03_possibs):
+        matriz_teste = matriz_entrada.copy()
+
+        if k >= 1000 and k // 1000 == 0:
+            print('{} .'.format(k))
+
+        for trinca in item_lista:
+            matriz_teste[trinca.linha][trinca.coluna] = trinca.valor
+
+        eh_valida = verifica_matriz_incompleta_esta_valida(matriz_teste)
+        if eh_valida:
+            matrizes_combinadas_validas.append(item_lista)
+            contador_matrizes_combinadas_validas += 1
+
+    print(' matrizes combinadas validas => {} .'.format(contador_matrizes_combinadas_validas))
+
+    end = time.time()
+    hours, rem = divmod(end - start, 3600)
+    minutes, seconds = divmod(rem, 60)
+    print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), seconds))
+
+
 def retorna_total_possibilidades(matriz):
     total = 1
     for i in range(0, 9):
@@ -107,18 +146,25 @@ def retorna_total_possibilidades(matriz):
                     total = total * len(lista)
     return total
 
-def retorna_posicoes_possibilidades(matriz):
+def retorna_posicoes_possibilidades(matriz, num_possibs):
     lista_possibs = []
     for i in range(0, 9):
         for j in range(0, 9):
             if matriz[i][j] == 0:
                 lista = retorna_qtd_possibs_celula(i, j, matriz)
                 
-                if len(lista) == 2:
+                if len(lista) == num_possibs:
                     lista_possibs.append(Posicao_Possibilidades(i,j,lista))
     return lista_possibs
-                
 
+def retorna_posicoes_02_possibilidades(matriz):
+    return retorna_posicoes_possibilidades(matriz, 2)
+
+def retorna_posicoes_03_possibilidades(matriz):
+    return retorna_posicoes_possibilidades(matriz, 3)
+
+def retorna_posicoes_04_possibilidades(matriz):
+    return retorna_posicoes_possibilidades(matriz, 4)
 
 def validacao(matriz):
     
@@ -126,10 +172,6 @@ def validacao(matriz):
         for j in range(0, 9):
             if matriz[i][j] == 0:
                 lista = retorna_qtd_possibs_celula(i, j, matriz)
-                '''
-                if len(lista) == 2:
-                    print('({},{}) => {} => {} '.format(i,j,lista, choice(lista)))
-                '''
                 if len(lista) == 1:
                     matriz[i][j] = lista[0]
     
@@ -222,10 +264,8 @@ def retorna_qtd_possibs_celula(linha, coluna, matriz):
     elementos.extend(pega_elementos_linha(linha, matriz))
     elementos.extend(pega_elementos_coluna(coluna, matriz))
     elementos.extend(retorna_elementos_quadrante_linha_coluna(linha, coluna, matriz))
-    
-    conjuntoB = set(elementos)
-    
-    return list(CONJUNTO_COMPLETO.difference(conjuntoB))
+    conjunto_b = set(elementos)
+    return list(CONJUNTO_COMPLETO.difference(conjunto_b))
 
 def pega_elementos_linha(linha, matriz):
     elementos = []
@@ -282,50 +322,23 @@ def retorna_elementos_quadrante(quadrante, matriz):
     linha_inicio = -1;linha_fim = -1;coluna_inicio = -1;coluna_fim = -1;
     
     if quadrante == 0:
-        linha_inicio = 0;
-        linha_fim = 2;
-        coluna_inicio = 0;
-        coluna_fim = 2;
+        linha_inicio = 0;linha_fim = 2;coluna_inicio = 0;coluna_fim = 2;
     if quadrante == 1:
-        linha_inicio = 0;
-        linha_fim = 2;
-        coluna_inicio = 3;
-        coluna_fim = 5;
+        linha_inicio = 0;linha_fim = 2;coluna_inicio = 3;coluna_fim = 5;
     if quadrante == 2:
-        linha_inicio = 0;
-        linha_fim = 2;
-        coluna_inicio = 6;
-        coluna_fim = 8;
+        linha_inicio = 0;linha_fim = 2;coluna_inicio = 6;coluna_fim = 8;
     if quadrante == 3:
-        linha_inicio = 3;
-        linha_fim = 5;
-        coluna_inicio = 0;
-        coluna_fim = 2;
+        linha_inicio = 3;linha_fim = 5;coluna_inicio = 0;coluna_fim = 2;
     if quadrante == 4:
-        linha_inicio = 3;
-        linha_fim = 5;
-        coluna_inicio = 3;
-        coluna_fim = 5;
+        linha_inicio = 3;linha_fim = 5;coluna_inicio = 3;coluna_fim = 5;
     if quadrante == 5:
-        linha_inicio = 3;
-        linha_fim = 5;
-        coluna_inicio = 6;
-        coluna_fim = 8;
+        linha_inicio = 3;linha_fim = 5;coluna_inicio = 6;coluna_fim = 8;
     if quadrante == 6:
-        linha_inicio = 6;
-        linha_fim = 8;
-        coluna_inicio = 0;
-        coluna_fim = 2;
+        linha_inicio = 6;linha_fim = 8;coluna_inicio = 0;coluna_fim = 2;
     if quadrante == 7:
-        linha_inicio = 6;
-        linha_fim = 8;
-        coluna_inicio = 3;
-        coluna_fim = 5;
+        linha_inicio = 6;linha_fim = 8;coluna_inicio = 3;coluna_fim = 5;
     if quadrante == 8:
-        linha_inicio = 6;
-        linha_fim = 8;
-        coluna_inicio = 6;
-        coluna_fim = 8;
+        linha_inicio = 6;linha_fim = 8;coluna_inicio = 6;coluna_fim = 8;
     
     elementos = []
     for i in range(linha_inicio, linha_fim + 1):
@@ -334,29 +347,265 @@ def retorna_elementos_quadrante(quadrante, matriz):
                 elementos.append(matriz[i][j])
     return elementos
 
-def teste_matriz_02(matriz_a_verificar):
-    p1 = Posicao_Possibilidades(0, 8,  [9, 2])
-    p2 = Posicao_Possibilidades(1, 8,  [1, 2])
-    p3 = Posicao_Possibilidades(3, 1,  [2, 5])
-    p4 = Posicao_Possibilidades(4, 8,  [9, 2])
-    p5 = Posicao_Possibilidades(7, 4,  [1, 5])
-    lista_possibilidades = [p1, p2, p3, p4, p5]
-    arvore = monta_arvore(lista_possibilidades)
+def verifica_matriz_celulas_02_possibs(matriz_a_verificar):
+    print('Lista de Posição 02 Possibilidades: \n ')
+    posicoes = retorna_posicoes_02_possibilidades(matriz_a_verificar)
+    for pp in posicoes:
+        print(pp)
+
+    lista_possibilidades = []
+    for pos in posicoes:
+        lista_possibilidades.append(pos)
+    arvore = monta_arvore_02_possibs(lista_possibilidades)
 
     cont_matrizes_validas = 0
+
+    matriz_matrizes_validas = []
     for k,item_arvore in enumerate(arvore):
         matriz_teste = matriz_a_verificar.copy()
-        texto_trincas = ''
+        lista_trincas = []
+
         for trinca in item_arvore:
-            texto_trincas = texto_trincas + str(trinca)
+            lista_trincas.append(trinca)
             matriz_teste[trinca.linha][trinca.coluna] = trinca.valor
         eh_valida = verifica_matriz_incompleta_esta_valida(matriz_teste)
         if eh_valida:
+            matriz_matrizes_validas.append(lista_trincas)
             cont_matrizes_validas +=1
-            print('Matriz {} Válida => {} => [{}]'.format(k,eh_valida, texto_trincas))
-        '''    
-        else:
-            print('Matriz {} Válida => {} '.format(k, eh_valida))
-        '''
-        
+
     print('Matrizes Válidas => {} '.format(cont_matrizes_validas))
+
+    imprime_matriz_matrizes_validas(matriz_matrizes_validas)
+    mostra_estatisticas(matriz_matrizes_validas)
+
+    return matriz_matrizes_validas
+
+def verifica_matriz_celulas_03_possibs(matriz_a_verificar):
+    print('Lista de Posição 03 Possibilidades: \n ')
+    posicoes = retorna_posicoes_03_possibilidades(matriz_a_verificar)
+    for pp in posicoes:
+        print(pp)
+
+    lista_possibilidades = []
+    for pos in posicoes:
+        lista_possibilidades.append(pos)
+    arvore = monta_arvore_03_possibs(lista_possibilidades)
+
+    cont_matrizes_validas = 0
+
+    matriz_matrizes_validas = []
+    for k,item_arvore in enumerate(arvore):
+        matriz_teste = matriz_a_verificar.copy()
+        lista_trincas = []
+
+        if k >= 1000 and k // 1000 == 0:
+            print('{} .'.format(k))
+
+        for trinca in item_arvore:
+            lista_trincas.append(trinca)
+            matriz_teste[trinca.linha][trinca.coluna] = trinca.valor
+        eh_valida = verifica_matriz_incompleta_esta_valida(matriz_teste)
+        if eh_valida:
+            matriz_matrizes_validas.append(lista_trincas)
+            cont_matrizes_validas +=1
+
+    print('Matrizes Válidas => {} '.format(cont_matrizes_validas))
+
+    imprime_matriz_matrizes_validas(matriz_matrizes_validas)
+    mostra_estatisticas(matriz_matrizes_validas)
+
+    return matriz_matrizes_validas
+
+
+def verifica_matriz_celulas_04_possibs(matriz_a_verificar):
+    print('Lista de Posição 04 Possibilidades: \n ')
+    posicoes = retorna_posicoes_04_possibilidades(matriz_a_verificar)
+    for pp in posicoes:
+        print(pp)
+
+    lista_possibilidades = []
+    for pos in posicoes:
+        lista_possibilidades.append(pos)
+    arvore = monta_arvore_04_possibs(lista_possibilidades)
+
+    cont_matrizes_validas = 0
+
+    matriz_matrizes_validas = []
+    for k,item_arvore in enumerate(arvore):
+        matriz_teste = matriz_a_verificar.copy()
+        lista_trincas = []
+
+        if k >= 1000 and k // 1000 == 0:
+            print('{} .'.format(k))
+
+        for trinca in item_arvore:
+            lista_trincas.append(trinca)
+            matriz_teste[trinca.linha][trinca.coluna] = trinca.valor
+        eh_valida = verifica_matriz_incompleta_esta_valida(matriz_teste)
+        if eh_valida:
+            matriz_matrizes_validas.append(lista_trincas)
+            cont_matrizes_validas +=1
+
+    print('Matrizes Válidas => {} '.format(cont_matrizes_validas))
+
+    imprime_matriz_matrizes_validas(matriz_matrizes_validas)
+    mostra_estatisticas(matriz_matrizes_validas)
+
+    return matriz_matrizes_validas
+
+
+def imprime_matriz_matrizes_validas(matriz_matrizes_validas):
+    for k,list in enumerate(matriz_matrizes_validas):
+        print('[ ', end='')
+        for it in list:
+            print('{},'.format(it),end='')
+        print(' ]')
+
+def mostra_elementos_diferentes_lista(lista_trincas):
+    lista = []
+    for trinca in lista_trincas:
+        lista.append(str(trinca))
+    return list(set(lista))
+
+
+def mostra_estatisticas(matriz_matrizes_validas):
+
+    for indice_coluna in range(len(matriz_matrizes_validas[0])):
+        elementos_coluna = retorna_coluna_matriz(matriz_matrizes_validas, indice_coluna)
+        total_elementos = len(elementos_coluna)
+        trinca1 = ''
+        trinca2 = ''
+        trinca3 = ''
+        trinca4 = ''
+        cont_trinca1 = 0
+        cont_trinca2 = 0
+        cont_trinca3 = 0
+        cont_trinca4 = 0
+        for k,item in enumerate(elementos_coluna):
+
+            if k == 0:
+                trinca1 = str(elementos_coluna[0])
+                cont_trinca1 += 1
+
+            if k > 0:
+                if str(item) == trinca1:
+                    cont_trinca1 += 1
+
+                if str(item) != trinca1 and trinca2 == '' and trinca3 == '' and trinca4 == '':
+                    trinca2 = str(item)
+                    cont_trinca2 += 1
+
+                elif str(item) != trinca1 and trinca2 != '' and str(item) == trinca2:
+                    trinca2 = str(item)
+                    cont_trinca2 += 1
+
+                elif str(item) != trinca1 and trinca2 != '' and str(item) != trinca2:
+                    trinca3 = str(item)
+                    cont_trinca3 += 1
+
+                elif str(item) != trinca1 and trinca2 != '' and str(item) != trinca2 and trinca3 != '' and str(item) != trinca3:
+                    trinca4 = str(item)
+                    cont_trinca4 += 1
+
+        print(' ================================ ', end='\n')
+        print(' Coluna {}'.format(indice_coluna),end='\n')
+        print(' Trinca 1 ({}) => {}%'.format(trinca1, (cont_trinca1/total_elementos) * 100))
+        print(' Trinca 2 ({}) => {}%'.format(trinca2, (cont_trinca2/total_elementos) * 100))
+        print(' Trinca 3 ({}) => {}%'.format(trinca3, (cont_trinca3/total_elementos) * 100))
+        print(' Trinca 4 ({}) => {}%'.format(trinca4, (cont_trinca4/total_elementos) * 100))
+    print(' ================================ ', end='\n')
+
+def retorna_coluna_matriz(matrix, column_index):
+    return [row[column_index] for row in matrix]
+
+def monta_arvore_03_possibs(lista_possibilidades):
+    lista_global = [[], [], []]
+
+    trincas = renorna_lista_trincas(lista_possibilidades[0])
+    lista_global[0].append(trincas[0])
+    lista_global[1].append(trincas[1])
+    lista_global[2].append(trincas[2])
+
+    for k, pp in enumerate(lista_possibilidades):
+        if (k == 0):
+            continue
+        elif k > 0:
+            lista_trincas_arg = renorna_lista_trincas(pp)
+            lista_global = triplica_lista_trincas(lista_global, lista_trincas_arg)
+
+    return lista_global
+
+def monta_arvore_04_possibs(lista_possibilidades):
+    lista_global = [[], [], [], []]
+
+    trincas = renorna_lista_trincas(lista_possibilidades[0])
+    lista_global[0].append(trincas[0])
+    lista_global[1].append(trincas[1])
+    lista_global[2].append(trincas[2])
+    lista_global[3].append(trincas[3])
+
+    for k, pp in enumerate(lista_possibilidades):
+        if k == 0:
+            continue
+        elif k > 0:
+            lista_trincas_arg = renorna_lista_trincas(pp)
+            lista_global = triplica_lista_trincas(lista_global, lista_trincas_arg)
+
+    return lista_global
+
+def triplica_lista_trincas(lista_global, nova_lista_trincas):
+    nova_lista_retornada = [[]]
+    lista = []
+    if len(lista_global) == 0:
+        nova_lista_retornada = [[] for i in range(len(nova_lista_trincas))]
+        for k,item in enumerate(nova_lista_trincas):
+            lista = [item]
+            nova_lista_retornada[k].extend(lista)
+    else:
+        nova_lista_retornada = [[] for i in range(3 * len(lista_global))]
+        for (k,item) in enumerate(lista_global):
+            if k == 1:
+                k += 2
+            elif k >= 2:
+                k *= 3
+            nova_lista_retornada[k].extend(item)
+            nova_lista_retornada[k].append(nova_lista_trincas[0])
+            nova_lista_retornada[k+1].extend(item)
+            nova_lista_retornada[k+1].append(nova_lista_trincas[1])
+            nova_lista_retornada[k+2].extend(item)
+            nova_lista_retornada[k+2].append(nova_lista_trincas[2])
+
+    return nova_lista_retornada
+
+def quadruplica_lista_trincas(lista_global, nova_lista_trincas):
+    nova_lista_retornada = [[]]
+    lista = []
+    if len(lista_global) == 0:
+        nova_lista_retornada = [[] for i in range(len(nova_lista_trincas))]
+        for k,item in enumerate(nova_lista_trincas):
+            lista = [item]
+            nova_lista_retornada[k].extend(lista)
+    else:
+        nova_lista_retornada = [[] for i in range(4 * len(lista_global))]
+        for (k,item) in enumerate(lista_global):
+            if k == 1:
+                k += 3
+            elif k >= 2:
+                k *= 4
+            nova_lista_retornada[k].extend(item)
+            nova_lista_retornada[k].append(nova_lista_trincas[0])
+            nova_lista_retornada[k+1].extend(item)
+            nova_lista_retornada[k+1].append(nova_lista_trincas[1])
+            nova_lista_retornada[k+2].extend(item)
+            nova_lista_retornada[k+2].append(nova_lista_trincas[2])
+            nova_lista_retornada[k+3].extend(item)
+            nova_lista_retornada[k+3].append(nova_lista_trincas[3])
+
+    return nova_lista_retornada
+
+def renorna_lista_trincas(posicao: Posicao_Possibilidades):
+    lista_trincas = []
+    for k,num in enumerate(posicao.possibilidades):
+        trinca = Trinca(posicao.linha, posicao.coluna, posicao.possibilidades[k])
+        lista_trincas.append(trinca)
+    return lista_trincas
