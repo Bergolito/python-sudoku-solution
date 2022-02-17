@@ -32,13 +32,13 @@ def retorna_trincas(posicao):
     return lista_trincas
 
 def imprime_trincas(lista_possibilidades):
-    print('Trincas => ')
+    print('Trincas => [',end='')
     cont = 0
     for pp in lista_possibilidades:
         for tc in renorna_lista_trincas(pp):
             cont +=1
             print(tc,end='')
-    print('\nTotal => {}'.format(cont))
+    print('] Total => {}'.format(cont), end='')
     
 def imprime_saida(lista_global):
 

@@ -1,7 +1,7 @@
 from solucao_arvore_geral import Posicao_Possibilidades, Trinca, renorna_lista_trincas, retorna_trincas, imprime_trincas, imprime_saida
 
 # ====================================
-def monta_arvore_02_possibs(lista_possibilidades):
+def monta_arvore_02_possibilidades(lista_possibilidades):
     lista_global = [[],[]]
 
     trincas = renorna_lista_trincas(lista_possibilidades[0])
@@ -49,5 +49,5 @@ if __name__ == '__main__':
     p3 = Posicao_Possibilidades(3, 6, [3, 7])
     lista_possibilidades = [p1, p2, p3]
     imprime_trincas(lista_possibilidades)
-    arvore = monta_arvore_02_possibs(lista_possibilidades)
+    arvore = monta_arvore_02_possibilidades(lista_possibilidades)
     imprime_saida(arvore)
