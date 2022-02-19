@@ -1,10 +1,10 @@
-from solucao_arvore_geral import Posicao_Possibilidades, Trinca, renorna_lista_trincas, retorna_trincas, imprime_trincas, imprime_saida
+from solucao_arvore_geral import Posicao_Possibilidades, Trinca, retorna_lista_trincas, retorna_trincas, imprime_trincas, imprime_saida
 
 # ====================================
 def monta_arvore_02_possibilidades(lista_possibilidades):
     lista_global = [[],[]]
 
-    trincas = renorna_lista_trincas(lista_possibilidades[0])
+    trincas = retorna_lista_trincas(lista_possibilidades[0])
     lista_global[0].append(trincas[0])
     lista_global[1].append(trincas[1])
 
@@ -12,7 +12,7 @@ def monta_arvore_02_possibilidades(lista_possibilidades):
         if (k == 0):
             continue
         elif k > 0:
-            lista_trincas_arg = renorna_lista_trincas(pp)
+            lista_trincas_arg = retorna_lista_trincas(pp)
             lista_global = duplica_lista_trincas(lista_global, lista_trincas_arg)
     
     return lista_global
