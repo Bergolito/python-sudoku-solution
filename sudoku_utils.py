@@ -1,5 +1,6 @@
 import numpy as np
 import time
+import datetime
 
 from random import choice
 from collections import Counter
@@ -14,6 +15,11 @@ from solucao_arvore_07_possibs import monta_arvore_07_possibilidades
 
 CONJUNTO_COMPLETO = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
+# ====================================
+def retorna_date_time_string():
+    x = datetime.datetime.now()
+    date_str = str(x.strftime("%Y"))+str(x.strftime("%m"))+str(x.strftime("%d"))+'_'+str(x.strftime("%f"))
+    return date_str
 # ====================================
 def exibe_tempo_processamento(start, end):
     hours, rem = divmod(end - start, 3600)

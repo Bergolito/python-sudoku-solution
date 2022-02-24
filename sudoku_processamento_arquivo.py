@@ -70,60 +70,94 @@ def inicio():
         print('Em {} interações, não achou a solução: '.format(LOOPS))
         print('===========================================')
 
-        # Analisando Primeira Camada Horizontal   
-        print('\nAnalisando Primeira Camada Horizontal: ')
-        matrizes_validas_camada1 = analisa_camadas_horizontais(0, 3, 0, 9, matriz_entrada)
-        imprime_matriz_matrizes_validas(matrizes_validas_camada1)   
-            
-        # Analisando Segunda Camada Horizontal   
-        print('\nAnalisando Segunda Camada Horizontal: ')
-        matrizes_validas_camada2 = analisa_camadas_horizontais(3, 6, 0, 9, matriz_entrada)
-        imprime_matriz_matrizes_validas(matrizes_validas_camada2)   
-        
         # Analisando Terceira Camada Horizontal    
         print('\nAnalisando Terceira Camada Horizontal: ')
-        matrizes_validas_camada3 = analisa_camadas_horizontais(6, 9, 0, 9, matriz_entrada)
+        matrizes_validas_camada3 = analisa_camadas_horizontais(6, 8, 0, 9, matriz_entrada)
         imprime_matriz_matrizes_validas(matrizes_validas_camada3)   
 
-        print('\nTotal de matrizes válidas: Camada1 * Camada2 * Camada3 = {} * {} * {} = {} '.format(len(matrizes_validas_camada1), len(matrizes_validas_camada2), len(matrizes_validas_camada3), (len(matrizes_validas_camada1)*len(matrizes_validas_camada2)*len(matrizes_validas_camada3))))
+        nome_arquivo = '/home/03795871492/sudoku/sudoku_saida_parte01_20220224_798482.txt'
+        tamanho_total = retorna_qtd_registros_total_arquivo(nome_arquivo)
+        print('TAM TOTAL LISTA => ',tamanho_total)
 
-        print('Tratando as matrizes válidas das camadas 1 e 2:')
-        matrizes_combinadas_validas_camadas_1e2 = tratando_as_camadas_um_e_dois(matrizes_validas_camada1, matrizes_validas_camada2, matriz_entrada)
+        linha_inicio = 0; linha_fim = 1000; incremento = 1000
+        lista_retorno = abre_arquivo_retorna_registros(linha_inicio, linha_fim, nome_arquivo)
 
-        gera_arquivo_trincas(matrizes_combinadas_validas_camadas_1e2, '/home/03795871492/sudoku/sudoku_saida_parte01_')
+        lacos = int(tamanho_total/1000)
+        print('Lacos = ',lacos)
+        for i in range(lacos):            
+            if linha_fim <= tamanho_total:
+                processa_arquivo(linha_inicio, linha_fim, lista_retorno, matrizes_validas_camada3, matriz_entrada, nome_arquivo)
+                linha_inicio = linha_inicio + incremento
+                linha_fim = linha_fim + incremento
+                lista_retorno = abre_arquivo_retorna_registros(linha_inicio, linha_fim, nome_arquivo)
+                print(lista_retorno[0])
+        
 
     end = time.time()
     exibe_tempo_processamento(start, end)
 # ====================================
+def processa_arquivo(inicio, fim, lista_retorno, matrizes_validas_camada3, matriz_entrada, nome_arquivo):
+    lista_matrizes_combinadas_validas = []
+    matrizes_combinadas_validas_saida = []
+
+    lista_retorno_camada3 = []
+    for k, item_lista in enumerate(matrizes_validas_camada3):
+        linha = ''
+        for trinca in item_lista:
+            linha = linha + str(trinca)
+        lista_retorno_camada3.append(linha)
+
+    for lista_camada1 in lista_retorno:
+        for lista_camada3 in lista_retorno_camada3:
+            lista_matrizes_combinadas_validas.append(lista_camada1+lista_camada3)
+
+    mat_comb_valids_camadas_1e2_cam3 = tratando_as_camadas_dois_e_tres(lista_matrizes_combinadas_validas, matriz_entrada)
+    if len(mat_comb_valids_camadas_1e2_cam3) > 0:
+        nome = "/home/03795871492/sudoku/sudoku_processada_"+retorna_date_time_string()+str(inicio)+"a"+str(fim)+".txt"
+        gera_arquivo_trincas(mat_comb_valids_camadas_1e2_cam3, nome)
+# ====================================
+def retorna_qtd_registros_total_arquivo(nome_arquivo):
+    fp = open(nome_arquivo)
+    lista_retorno = []
+    contador = 0
+    for i, line in enumerate(fp):
+        if line != '':
+            contador += 1
+    fp.close()
+    return contador
+# ====================================
+def abre_arquivo_retorna_registros(inicio, fim, nome_arquivo):
+    fp = open(nome_arquivo)
+    lista_retorno = []
+    print('Analisando os registros do arquivo entre indices {} e {} => '.format(inicio, fim))
+    for i, line in enumerate(fp):
+        if i >= inicio and i < fim:
+            line = line.replace('\n','')
+            lista_retorno.append(line)
+    fp.close()
+    return lista_retorno
+# ====================================
 def gera_arquivo_trincas(matrizes_combinadas_validas_camadas_1e2, nome_arquivo):
-    lista_salvar_arquivo = retorna_str_lista_trincas(matrizes_combinadas_validas_camadas_1e2)
-    nome_arquivo = nome_arquivo+retorna_date_time_string()+'.txt'
-    with open(nome_arquivo, 'w') as f:
-        for item_lista in lista_salvar_arquivo:            
-            f.write(str(item_lista))
-    f.close()
+        lista_salvar_arquivo = retorna_str_lista_trincas(matrizes_combinadas_validas_camadas_1e2)
+        #nome_arquivo = nome_arquivo+retorna_date_time_string()+'.txt'
+        with open(nome_arquivo, 'w') as f:
+            for item_lista in lista_salvar_arquivo:            
+                f.write(str(item_lista))
+        f.close()
 # ====================================
 def retorna_str_lista_trincas(matrizes_validas):
     lista_retorno = []
     for k, item1 in enumerate(matrizes_validas):
-        str1 = "\n["+str(k)+"]->"
+        str1 = "\n["+str(k)+"] -> "
         lista_retorno.append(str1)
         for item2 in item1:
             lista_retorno.append(item2)
-        #lista_retorno.append("]")
+        lista_retorno.append("]")
     return lista_retorno
 # ====================================
-def tratando_as_camadas_um_e_dois(matrizes_validas_camada1, matrizes_validas_camada2, matriz_entrada):
+def tratando_as_camadas_dois_e_tres(lista_matrizes_combinadas_validas, matriz_entrada):
     lista_matrizes_combinadas_validas = []
-    matrizes_combinadas_validas_camadas_1e2 = []
-
-    for lista_camada1 in matrizes_validas_camada1:
-        for lista_camada2 in matrizes_validas_camada2:
-            lista_matrizes_combinadas_validas.append(lista_camada1+lista_camada2)
-
-    print('Len camada 1 => ',len(matrizes_validas_camada1))
-    print('Len camada 2 => ',len(matrizes_validas_camada2))
-    print('Len camadas 1 e 2 combinadas => ',len(lista_matrizes_combinadas_validas))
+    matrizes_combinadas_validas_camadas_saida = []
 
     for k, item_lista in enumerate(lista_matrizes_combinadas_validas):
         matriz_teste = matriz_entrada.copy()
@@ -134,9 +168,54 @@ def tratando_as_camadas_um_e_dois(matrizes_validas_camada1, matrizes_validas_cam
         eh_valida = verifica_matriz_incompleta_esta_valida(matriz_teste)
         if eh_valida:
             print('.',end='')
-            matrizes_combinadas_validas_camadas_1e2.append(item_lista)            
+            matrizes_combinadas_validas_camadas_saida.append(item_lista)            
+
+    print('\nQtd matrizes combinadas validas das camadas 2 e 3: => {}'.format(len(matrizes_combinadas_validas_camadas_saida)))
+    return matrizes_combinadas_validas_camadas_saida    
+# ====================================
+def tratando_as_camadas_um_e_dois(matrizes_validas_camada1, matrizes_validas_camada2, matriz_entrada):
+    lista_matrizes_combinadas_validas = []
+    matrizes_combinadas_validas_camadas_1e2 = []
+
+    for lista_camada1 in matrizes_validas_camada1:
+        for lista_camada2 in matrizes_validas_camada2:
+            lista_matrizes_combinadas_validas.append(lista_camada1+lista_camada2)
+            for k, item_lista in enumerate(lista_matrizes_combinadas_validas):
+                matriz_teste = matriz_entrada.copy()
+
+                for trinca in item_lista:
+                    matriz_teste[trinca.linha][trinca.coluna] = trinca.valor
+
+                eh_valida = verifica_matriz_incompleta_esta_valida(matriz_teste)
+                if eh_valida:
+                    print('.',end='')
+                    matrizes_combinadas_validas_camadas_1e2.append(item_lista)            
 
     print('\nQtd matrizes combinadas validas das camadas 1 e 2: => {}'.format(len(matrizes_combinadas_validas_camadas_1e2)))
+    return matrizes_combinadas_validas_camadas_1e2    
+# ====================================
+def tratando_as_camadas_um_e_dois(matrizes_validas_camada1, matrizes_validas_camada2, matriz_entrada):
+    lista_matrizes_combinadas_validas = []
+    for lista_camada1 in matrizes_validas_camada1:
+        for lista_camada2 in matrizes_validas_camada2:
+            lista_matrizes_combinadas_validas.append(lista_camada1+lista_camada2)
+
+    matrizes_combinadas_validas_camadas_1e2 = []
+    for k, item_lista in enumerate(lista_matrizes_combinadas_validas):
+        matriz_teste = matriz_entrada.copy()
+
+        if (k >= 1000 and k%1000 == 0):
+            print('.'.format(k),end='')
+
+        for trinca in item_lista:
+            matriz_teste[trinca.linha][trinca.coluna] = trinca.valor
+
+        eh_valida = verifica_matriz_incompleta_esta_valida(matriz_teste)
+        if eh_valida:
+            matrizes_combinadas_validas_camadas_1e2.append(item_lista)
+            #contador_matrizes_combinadas_validas += 1
+
+    print('Qtd matrizes combinadas validas das camadas 1 e 2: => {}'.format(len(matrizes_combinadas_validas_camadas_1e2)))
     return matrizes_combinadas_validas_camadas_1e2    
 # ====================================
 def retorna_listas_camadas_horizontais(linha_inicio, linha_fim, coluna_inicio, coluna_fim, matriz_entrada):
