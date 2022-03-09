@@ -31,7 +31,7 @@ def retorna_trincas(posicao):
     return lista_trincas
 # ====================================
 def imprime_trincas(lista_possibilidades):
-    print('Trincas => [',end='')   
+    print('\nTrincas => [',end='')   
     contador = 0    
     for pp in lista_possibilidades:        
         for tc in retorna_lista_trincas(pp):
