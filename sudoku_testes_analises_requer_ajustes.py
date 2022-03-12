@@ -8,12 +8,12 @@ from collections import Counter
 from sudoku_utils import *
 from sudoku import *
 from solucao_arvore_geral import *
-#from solucao_arvore_02_possibs import monta_arvore_02_possibilidades
-#from solucao_arvore_03_possibs import monta_arvore_03_possibilidades
-#from solucao_arvore_04_possibs import monta_arvore_04_possibilidades
-#from solucao_arvore_05_possibs import monta_arvore_05_possibilidades
-#from solucao_arvore_06_possibs import monta_arvore_06_possibilidades
-#from solucao_arvore_07_possibs import monta_arvore_07_possibilidades
+from solucao_arvore_02_possibs import monta_arvore_02_possibilidades
+from solucao_arvore_03_possibs import monta_arvore_03_possibilidades
+from solucao_arvore_04_possibs import monta_arvore_04_possibilidades
+from solucao_arvore_05_possibs import monta_arvore_05_possibilidades
+from solucao_arvore_06_possibs import monta_arvore_06_possibilidades
+from solucao_arvore_07_possibs import monta_arvore_07_possibilidades
 
 from solucao_arvore_geral import Posicao_Possibilidades, Trinca, retorna_lista_trincas, retorna_trincas, imprime_trincas, imprime_saida
 
