@@ -36,7 +36,6 @@ MATRIZ_ENTRADA_02 = np.array([
     [0, 4, 0,  2, 0, 0,  0, 0, 5]
 ])
 
-#618725439754396281392814657127689543485137962963542178531968724279453816846271395
 #   618725439 
 #   754396281
 #   392814657
@@ -207,7 +206,8 @@ def retorno_linha0(matriz_entrada):
     (0,7)=[9, 2, 3, 5]  |=> Trincas 4 |=> (0,7,9)(0,7,2)(0,7,3)(0,7,5)
     (0,8)=[9, 2]  |=> Trincas 2 |=> (0,8,9)(0,8,2)
     '''
-    print(f'\nAnalisando a Linha 0...')
+    #Analisando a Linha 0: Total de registros: 288
+    print(f'\nAnalisando a Linha 0: ', end='')
     
     #(0,3,3)(0,3,5)(0,3,7)
     trinca1 = Trinca(0,3,3)
@@ -245,6 +245,9 @@ def retorno_linha0(matriz_entrada):
     lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
     lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
 
+    #Analisando a Linha 0: Total de registros: 288
+    print(f'Total de registros: {len(lista_combina_lista1234_com_lista5)}')
+
     return lista_combina_lista1234_com_lista5
 # ====================================
 # ====================================
@@ -256,7 +259,7 @@ def retorno_linha3(matriz_entrada):
     3=>(3,6)=[1, 2, 5]  |=> Trincas 3 |=> 
     4=>(3,7)=[1, 2, 4, 5, 7]  |=> Trincas 5 |=> =>tipo <class 'int'> 0
     '''
-    print(f'\nAnalisando a Linha 3...')
+    print(f'\nAnalisando a Linha 3: ', end='')
 
     #0=>(3,0)=[1, 2, 5, 7]
     trinca1 = Trinca(3,0,1)
@@ -296,6 +299,8 @@ def retorno_linha3(matriz_entrada):
     lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
     lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
 
+    print(f'Total de registros: {len(lista_combina_lista1234_com_lista5)}')
+
     return lista_combina_lista1234_com_lista5
 # ====================================
 def retorno_linha4(matriz_entrada):
@@ -308,7 +313,7 @@ def retorno_linha4(matriz_entrada):
     5=>(4,7)=[2, 5, 6, 7, 9]  |=> Trincas 5 |=> 
     6=>(4,8)=[9, 2]  |=> Trincas 2 |=> =>tipo <class 'int'> 0
     '''
-    print(f'\nAnalisando a Linha 4...')
+    print(f'\nAnalisando a Linha 4: ', end='')
 
     #0=>(4,1)=[2, 3, 5, 6, 8]
     trinca1 = Trinca(4,1,2)
@@ -366,6 +371,8 @@ def retorno_linha4(matriz_entrada):
     lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
     lista_combina_lista123456_com_lista7 = monta_arvore(lista_combina_lista12345_com_lista6, lista7, False)
 
+    print(f'Total de registros: {len(lista_combina_lista123456_com_lista7)}')
+
     return lista_combina_lista123456_com_lista7
 # ====================================
 # ====================================
@@ -378,7 +385,7 @@ def retorno_linha5(matriz_entrada):
     4=>(5,6)=[1, 2, 5, 6]  |=> Trincas 4 |=> 
     5=>(5,7)=[1, 2, 5, 6, 7]  |=> Trincas 5 |=> =>tipo <class 'int'> 0
     '''
-    print(f'\nAnalisando a Linha 5...')
+    print(f'\nAnalisando a Linha 5: ', end='')
 
     #0=>(5,1)=[2, 3, 5, 6]
     trinca1 = Trinca(5,1,2)
@@ -429,6 +436,8 @@ def retorno_linha5(matriz_entrada):
     lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
     lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
 
+    print(f'Total de registros: {len(lista_combina_lista12345_com_lista6)}')
+
     return lista_combina_lista12345_com_lista6
 # ====================================
 # ====================================
@@ -443,7 +452,7 @@ def retorno_linha6(matriz_entrada):
     6=>(6,7)=[1, 2, 3, 4, 8, 9]  |=> Trincas 6 |=> 
     7=>(6,8)=[1, 2, 4, 9]  |=> Trincas 4 |=> =>tipo <class 'int'> 0
     '''
-    print(f'\nAnalisando a Linha 6...')
+    print(f'\nAnalisando a Linha 6: ', end='')
 
     #0=>(6,0)=[1, 2, 3, 5, 8]
     trinca1 = Trinca(6,0,1)
@@ -514,8 +523,9 @@ def retorno_linha6(matriz_entrada):
     lista_combina_lista123456_com_lista7 = monta_arvore(lista_combina_lista12345_com_lista6, lista7, False)
     lista_combina_lista1234567_com_lista8 = monta_arvore(lista_combina_lista123456_com_lista7, lista8, False)
 
-    return lista_combina_lista1234567_com_lista8
+    print(f'Total de registros: {len(lista_combina_lista1234567_com_lista8)}')
 
+    return lista_combina_lista1234567_com_lista8
 # ====================================
 # ====================================
 def retorno_linha7(matriz_entrada):
@@ -527,7 +537,7 @@ def retorno_linha7(matriz_entrada):
     4=>(7,6)=[8, 1, 2, 9]  |=> Trincas 4 |=> 
     5=>(7,7)=[1, 2, 4, 8, 9]  |=> Trincas 5 |=> =>tipo <class 'int'> 0
     '''
-    print(f'\nAnalisando a Linha 0...')
+    print(f'\nAnalisando a Linha 7: ', end='')
 
     #0=>(7,0)=[8, 1, 2, 5]
     trinca1 = Trinca(7,0,8)
@@ -575,7 +585,7 @@ def retorno_linha7(matriz_entrada):
     lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
     lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
 
-    #imprime_arvore(lista_combina_lista12345_com_lista6)
+    print(f'Total de registros: {len(lista_combina_lista12345_com_lista6)}')
 
     return lista_combina_lista12345_com_lista6
 # ====================================
@@ -589,7 +599,7 @@ def retorno_linha8(matriz_entrada):
     4=>(8,6)=[8, 1, 3, 9]  |=> Trincas 4 |=> 
     5=>(8,7)=[8, 1, 3, 9]  |=> Trincas 4 |=> =>tipo <class 'int'> 0
     '''
-    print(f'\nAnalisando a Linha 8...')
+    print(f'\nAnalisando a Linha 8: ', end='')
 
     #0=>(8,0)=[8, 1, 3]
     trinca1 = Trinca(8,0,8)
@@ -636,6 +646,8 @@ def retorno_linha8(matriz_entrada):
     lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
     lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
 
+    print(f'Total de registros: {len(lista_combina_lista12345_com_lista6)}')
+
     return lista_combina_lista12345_com_lista6
 # ====================================
 def retorno_linha1(matriz_entrada):
@@ -651,7 +663,7 @@ def retorno_linha1(matriz_entrada):
     5=>(1,7)=[1, 2, 3, 5, 8]  |=> Trincas 5 |=> 
     6=>(1,8)=[1, 2]
     '''
-    print(f'\nAnalisando a Linha 1...')
+    print(f'\nAnalisando a Linha 1: ', end='')
 
     #0=>(1,0)=[2, 3, 5, 7]
     trinca1 = Trinca(1,0,2)
@@ -709,6 +721,8 @@ def retorno_linha1(matriz_entrada):
     lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
     lista_combina_lista123456_com_lista7 = monta_arvore(lista_combina_lista12345_com_lista6, lista7, False)
 
+    print(f'Total de registros: {len(lista_combina_lista123456_com_lista7)}')
+
     return lista_combina_lista123456_com_lista7
 # ====================================
 def retorno_linha2(matriz_entrada):
@@ -721,7 +735,7 @@ def retorno_linha2(matriz_entrada):
     5=>(2,6)=[1, 2, 3, 5, 6, 9]  |=> Trincas 6 |=> 
     6=>(2,7)=[1, 2, 3, 5, 6, 9]  |=> Trincas 6 |=> =>tipo <class 'int'> 0
     '''
-    print(f'\nAnalisando a Linha 2...')
+    print(f'\nAnalisando a Linha 2: ', end='')
 
     #0=>(2,0)=[2, 3, 5]
     trinca1 = Trinca(2,0,2)
@@ -782,6 +796,8 @@ def retorno_linha2(matriz_entrada):
     lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
     lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
     lista_combina_lista123456_com_lista7 = monta_arvore(lista_combina_lista12345_com_lista6, lista7, False)
+
+    print(f'Total de registros: {len(lista_combina_lista123456_com_lista7)}')
 
     return lista_combina_lista123456_com_lista7
 # ====================================
