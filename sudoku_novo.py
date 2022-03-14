@@ -131,14 +131,17 @@ def imprime_matriz_numerica(matriz, mensagem):
 def analise_cam_horinzontal_01(matriz_entrada):
     print(f'\nAnalisando a camada horizontal 01 => \n')
 
-    linha0 = retorno_linha0(matriz_entrada)
+    #linha0 = retorno_linha0(matriz_entrada)
+    linha0 = retorno_linha_numero(0, matriz_entrada)
     matrizes_validas_linha0 = retorna_lista_matrizes_validas(linha0, matriz_entrada)
 
-    linha1 = retorno_linha1(matriz_entrada)
+    #linha1 = retorno_linha1(matriz_entrada)
+    linha1 = retorno_linha_numero(1, matriz_entrada)
     matrizes_validas_linha1 = retorna_lista_matrizes_validas(linha1, matriz_entrada)
     
     # 34560 registro
-    linha2 = retorno_linha2(matriz_entrada)
+    #linha2 = retorno_linha2(matriz_entrada)
+    linha2 = retorno_linha_numero(2, matriz_entrada)
     matrizes_validas_linha2 = retorna_lista_matrizes_validas(linha2, matriz_entrada)
 
     lista_combinada_mats_linha0_linha1 = monta_arvore(matrizes_validas_linha0, matrizes_validas_linha1, False)
@@ -154,13 +157,17 @@ def analise_cam_horinzontal_01(matriz_entrada):
 def analise_cam_horinzontal_02(matriz_entrada):
     print(f'\nAnalisando a camada horizontal 02 => \n')
 
-    linha3 = retorno_linha3(matriz_entrada)
+    #linha3 = retorno_linha3(matriz_entrada)
+    linha3 = retorno_linha_numero(3, matriz_entrada)
     matrizes_validas_linha3 = retorna_lista_matrizes_validas(linha3, matriz_entrada)
 
-    linha4 = retorno_linha4(matriz_entrada)
+    #linha4 = retorno_linha4(matriz_entrada)
+    linha4 = retorno_linha_numero(4, matriz_entrada)
     matrizes_validas_linha4 = retorna_lista_matrizes_validas(linha4, matriz_entrada)
     
-    linha5 = retorno_linha5(matriz_entrada)
+    #linha5 = retorno_linha5(matriz_entrada)
+    linha5 = retorno_linha_numero(5, matriz_entrada)
+
     matrizes_validas_linha5 = retorna_lista_matrizes_validas(linha5, matriz_entrada)
 
     lista_combinada_mats_linha3_linha4 = monta_arvore(matrizes_validas_linha3, matrizes_validas_linha4, False)
@@ -176,13 +183,16 @@ def analise_cam_horinzontal_02(matriz_entrada):
 def analise_cam_horinzontal_03(matriz_entrada):
     print(f'\nAnalisando a camada horizontal 03 => \n')
 
-    linha6 = retorno_linha6(matriz_entrada)
+    #linha6 = retorno_linha6(matriz_entrada)
+    linha6 = retorno_linha_numero(6, matriz_entrada)
     matrizes_validas_linha6 = retorna_lista_matrizes_validas(linha6, matriz_entrada)
 
-    linha7 = retorno_linha7(matriz_entrada)
+    #linha7 = retorno_linha7(matriz_entrada)
+    linha7 = retorno_linha_numero(7, matriz_entrada)
     matrizes_validas_linha7 = retorna_lista_matrizes_validas(linha7, matriz_entrada)
     
-    linha8 = retorno_linha8(matriz_entrada)
+    #linha8 = retorno_linha8(matriz_entrada)
+    linha8 = retorno_linha_numero(8, matriz_entrada)
     matrizes_validas_linha8 = retorna_lista_matrizes_validas(linha8, matriz_entrada)
 
     lista_combinada_mats_linha6_linha7 = monta_arvore(matrizes_validas_linha6, matrizes_validas_linha7, False)
@@ -196,610 +206,89 @@ def analise_cam_horinzontal_03(matriz_entrada):
 
     return matrizes_validas_linhas_6e7_linha8
 # ====================================
-
-# ====================================
-def retorno_linha0(matriz_entrada):
-    '''
-    (0,3)=[3, 5, 7]  |=> Trincas 3 |=> (0,3,3)(0,3,5)(0,3,7)
-    (0,4)=[2, 3, 5, 7]  |=> Trincas 4 |=> (0,4,2)(0,4,3)(0,4,5)(0,4,7)
-    (0,5)=[2, 5, 7]  |=> Trincas 3 |=> (0,5,2)(0,5,5)(0,5,7)
-    (0,7)=[9, 2, 3, 5]  |=> Trincas 4 |=> (0,7,9)(0,7,2)(0,7,3)(0,7,5)
-    (0,8)=[9, 2]  |=> Trincas 2 |=> (0,8,9)(0,8,2)
-    '''
-    #Analisando a Linha 0: Total de registros: 288
-    print(f'\nAnalisando a Linha 0: ', end='')
-    
-    #(0,3,3)(0,3,5)(0,3,7)
-    trinca1 = Trinca(0,3,3)
-    trinca2 = Trinca(0,3,5)
-    trinca3 = Trinca(0,3,7)
-    lista1 = [trinca1, trinca2, trinca3]
-
-    #(0,4,2)(0,4,3)(0,4,5)(0,4,7)
-    trinca4 = Trinca(0,4,2)
-    trinca5 = Trinca(0,4,3)
-    trinca6 = Trinca(0,4,5)
-    trinca7 = Trinca(0,4,7)
-    lista2 = [trinca4, trinca5, trinca6, trinca7] 
-
-    #(0,5,2)(0,5,5)(0,5,7)
-    trinca8 = Trinca(0,5,2)
-    trinca9 = Trinca(0,5,5)
-    trinca10 = Trinca(0,5,7)
-    lista3 = [trinca8, trinca9, trinca10] 
-
-    #(0,7,9)(0,7,2)(0,7,3)(0,7,5)
-    trinca11 = Trinca(0,7,9)
-    trinca12 = Trinca(0,7,2)
-    trinca13 = Trinca(0,7,3)
-    trinca14 = Trinca(0,7,5)
-    lista4 = [trinca11, trinca12, trinca13, trinca14] 
-
-    #(0,8,9)(0,8,2)
-    trinca15 = Trinca(0,8,9)
-    trinca16 = Trinca(0,8,2)
-    lista5 = [trinca15, trinca16] 
-
-    lista_combina_lista_e_lista2 = monta_arvore(lista1, lista2, False)
-    lista_combina_lista12_com_lista3 = monta_arvore(lista_combina_lista_e_lista2, lista3, False)
-    lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
-    lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
-
-    #Analisando a Linha 0: Total de registros: 288
-    print(f'Total de registros: {len(lista_combina_lista1234_com_lista5)}')
-
-    return lista_combina_lista1234_com_lista5
-# ====================================
-# ====================================
-def retorno_linha3(matriz_entrada):
-    '''
-    0=>(3,0)=[1, 2, 5, 7]  |=> Trincas 4 |=> 
-    1=>(3,1)=[2, 5]  |=> Trincas 2 |=> 
-    2=>(3,2)=[1, 2, 5, 7]  |=> Trincas 4 |=> 
-    3=>(3,6)=[1, 2, 5]  |=> Trincas 3 |=> 
-    4=>(3,7)=[1, 2, 4, 5, 7]  |=> Trincas 5 |=> =>tipo <class 'int'> 0
-    '''
-    print(f'\nAnalisando a Linha 3: ', end='')
-
-    #0=>(3,0)=[1, 2, 5, 7]
-    trinca1 = Trinca(3,0,1)
-    trinca2 = Trinca(3,0,2)
-    trinca3 = Trinca(3,0,5)
-    trinca4 = Trinca(3,0,7)
-    lista1 = [trinca1, trinca2, trinca3, trinca4]
-
-    #1=>(3,1)=[2, 5]
-    trinca5 = Trinca(3,1,2)
-    trinca6 = Trinca(3,1,5)
-    lista2 = [trinca5, trinca6] 
-
-    #2=>(3,2)=[1, 2, 5, 7]
-    trinca7 = Trinca(3,2,1)
-    trinca8 = Trinca(3,2,2)
-    trinca9 = Trinca(3,2,5)
-    trinca10 = Trinca(3,2,7)
-    lista3 = [trinca7, trinca8, trinca9, trinca10] 
-
-    #3=>(3,6)=[1, 2, 5]
-    trinca11 = Trinca(3,6,1)
-    trinca12 = Trinca(3,6,2)
-    trinca13 = Trinca(3,6,5)
-    lista4 = [trinca11, trinca12, trinca13] 
-
-    #4=>(3,7)=[1, 2, 4, 5, 7]
-    trinca14 = Trinca(3,7,1)
-    trinca15 = Trinca(3,7,2)
-    trinca16 = Trinca(3,7,4)
-    trinca17 = Trinca(3,7,5)
-    trinca18 = Trinca(3,7,7)
-    lista5 = [trinca14, trinca15, trinca16, trinca17, trinca18] 
-
-    lista_combina_lista_e_lista2 = monta_arvore(lista1, lista2, False)
-    lista_combina_lista12_com_lista3 = monta_arvore(lista_combina_lista_e_lista2, lista3, False)
-    lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
-    lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
-
-    print(f'Total de registros: {len(lista_combina_lista1234_com_lista5)}')
-
-    return lista_combina_lista1234_com_lista5
-# ====================================
-def retorno_linha4(matriz_entrada):
-    '''
-    0=>(4,1)=[2, 3, 5, 6, 8]  |=> Trincas 5 |=> 
-    1=>(4,2)=[2, 3, 5, 6, 7]  |=> Trincas 5 |=> 
-    2=>(4,4)=[2, 3, 5, 7]  |=> Trincas 4 |=> 
-    3=>(4,5)=[2, 5, 7]  |=> Trincas 3 |=> 
-    4=>(4,6)=[9, 2, 5, 6]  |=> Trincas 4 |=> 
-    5=>(4,7)=[2, 5, 6, 7, 9]  |=> Trincas 5 |=> 
-    6=>(4,8)=[9, 2]  |=> Trincas 2 |=> =>tipo <class 'int'> 0
-    '''
-    print(f'\nAnalisando a Linha 4: ', end='')
-
-    #0=>(4,1)=[2, 3, 5, 6, 8]
-    trinca1 = Trinca(4,1,2)
-    trinca2 = Trinca(4,1,3)
-    trinca3 = Trinca(4,1,5)
-    trinca4 = Trinca(4,1,6)
-    trinca5 = Trinca(4,1,8)
-    lista1 = [trinca1, trinca2, trinca3, trinca4, trinca5]
-
-    #1=>(4,2)=[2, 3, 5, 6, 7]
-    trinca6 = Trinca(4,2,2)
-    trinca7 = Trinca(4,2,3)
-    trinca8 = Trinca(4,2,5)
-    trinca9 = Trinca(4,2,6)
-    trinca10 = Trinca(4,2,7)
-    lista2 = [trinca6, trinca7, trinca8, trinca9, trinca10] 
-
-    #2=>(4,4)=[2, 3, 5, 7]
-    trinca11 = Trinca(4,4,2)
-    trinca12 = Trinca(4,4,3)
-    trinca13 = Trinca(4,4,5)
-    trinca14 = Trinca(4,4,7)
-    lista3 = [trinca11, trinca12, trinca13, trinca14] 
-
-    #3=>(4,5)=[2, 5, 7]
-    trinca15 = Trinca(4,5,2)
-    trinca16 = Trinca(4,5,5)
-    trinca17 = Trinca(4,5,7)
-    lista4 = [trinca15, trinca16, trinca17] 
-
-    #4=>(4,6)=[9, 2, 5, 6]
-    trinca18 = Trinca(4,6,9)
-    trinca19 = Trinca(4,6,2)
-    trinca20 = Trinca(4,6,5)
-    trinca21 = Trinca(4,6,6)
-    lista5 = [trinca18, trinca19, trinca20, trinca21] 
-
-    #5=>(4,7)=[2, 5, 6, 7, 9]
-    trinca22 = Trinca(4,7,2)
-    trinca23 = Trinca(4,7,5)
-    trinca24 = Trinca(4,7,6)
-    trinca25 = Trinca(4,7,7)
-    trinca26 = Trinca(4,7,9)
-    lista6 = [trinca22, trinca23,trinca24, trinca25,trinca26] 
-
-    #6=>(4,8)=[9, 2]
-    trinca27 = Trinca(4,8,9)
-    trinca28 = Trinca(4,8,2)
-    lista7 = [trinca27, trinca28] 
-
-    lista_combina_lista_e_lista2 = monta_arvore(lista1, lista2, False)
-    lista_combina_lista12_com_lista3 = monta_arvore(lista_combina_lista_e_lista2, lista3, False)
-    lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
-    lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
-    lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
-    lista_combina_lista123456_com_lista7 = monta_arvore(lista_combina_lista12345_com_lista6, lista7, False)
-
-    print(f'Total de registros: {len(lista_combina_lista123456_com_lista7)}')
-
-    return lista_combina_lista123456_com_lista7
-# ====================================
-# ====================================
-def retorno_linha5(matriz_entrada):
-    '''
-    0=>(5,1)=[2, 3, 5, 6]  |=> Trincas 4 |=> 
-    1=>(5,2)=[1, 2, 3, 5, 6, 7]  |=> Trincas 6 |=> 
-    2=>(5,3)=[3, 5, 7]  |=> Trincas 3 |=> 
-    3=>(5,5)=[2, 5, 7]  |=> Trincas 3 |=> 
-    4=>(5,6)=[1, 2, 5, 6]  |=> Trincas 4 |=> 
-    5=>(5,7)=[1, 2, 5, 6, 7]  |=> Trincas 5 |=> =>tipo <class 'int'> 0
-    '''
-    print(f'\nAnalisando a Linha 5: ', end='')
-
-    #0=>(5,1)=[2, 3, 5, 6]
-    trinca1 = Trinca(5,1,2)
-    trinca2 = Trinca(5,1,3)
-    trinca3 = Trinca(5,1,5)
-    trinca4 = Trinca(5,1,6)
-    lista1 = [trinca1, trinca2, trinca3, trinca4]
-
-    #1=>(5,2)=[1, 2, 3, 5, 6, 7]
-    trinca5 = Trinca(5,2,1)
-    trinca6 = Trinca(5,2,2)
-    trinca7 = Trinca(5,2,3)
-    trinca8 = Trinca(5,2,5)
-    trinca9 = Trinca(5,2,6)
-    trinca10 = Trinca(5,2,7)
-    lista2 = [trinca5, trinca6, trinca7, trinca8, trinca9, trinca10] 
-
-    #2=>(5,3)=[3, 5, 7]
-    trinca11 = Trinca(5,3,3)
-    trinca12 = Trinca(5,3,5)
-    trinca13 = Trinca(5,3,7)
-    lista3 = [trinca11, trinca12, trinca13] 
-
-    #3=>(5,5)=[2, 5, 7]
-    trinca14 = Trinca(5,5,2)
-    trinca15 = Trinca(5,5,5)
-    trinca16 = Trinca(5,5,7)
-    lista4 = [trinca14, trinca15, trinca16] 
-
-    #4=>(5,6)=[1, 2, 5, 6]
-    trinca17 = Trinca(5,6,1)
-    trinca18 = Trinca(5,6,2)
-    trinca19 = Trinca(5,6,5)
-    trinca20 = Trinca(5,6,6)
-    lista5 = [trinca17, trinca18, trinca19, trinca20] 
-
-    #5=>(5,7)=[1, 2, 5, 6, 7]
-    trinca21 = Trinca(5,7,1)
-    trinca22 = Trinca(5,7,2)
-    trinca23 = Trinca(5,7,5)
-    trinca24 = Trinca(5,7,6)
-    trinca25 = Trinca(5,7,7)
-    lista6 = [trinca21, trinca22, trinca23, trinca24, trinca25] 
-
-    lista_combina_lista_e_lista2 = monta_arvore(lista1, lista2, False)
-    lista_combina_lista12_com_lista3 = monta_arvore(lista_combina_lista_e_lista2, lista3, False)
-    lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
-    lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
-    lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
-
-    print(f'Total de registros: {len(lista_combina_lista12345_com_lista6)}')
-
-    return lista_combina_lista12345_com_lista6
-# ====================================
-# ====================================
-def retorno_linha6(matriz_entrada):
-    '''
-    0=>(6,0)=[1, 2, 3, 5, 8]  |=> Trincas 5 |=> 
-    1=>(6,1)=[2, 3, 5, 6, 8, 9]  |=> Trincas 6 |=> 
-    2=>(6,2)=[1, 2, 3, 5, 6, 9]  |=> Trincas 6 |=> 
-    3=>(6,3)=[9, 4, 5]  |=> Trincas 3 |=> 
-    4=>(6,4)=[1, 5, 6]  |=> Trincas 3 |=> 
-    5=>(6,5)=[8, 1, 4, 5]  |=> Trincas 4 |=> 
-    6=>(6,7)=[1, 2, 3, 4, 8, 9]  |=> Trincas 6 |=> 
-    7=>(6,8)=[1, 2, 4, 9]  |=> Trincas 4 |=> =>tipo <class 'int'> 0
-    '''
-    print(f'\nAnalisando a Linha 6: ', end='')
-
-    #0=>(6,0)=[1, 2, 3, 5, 8]
-    trinca1 = Trinca(6,0,1)
-    trinca2 = Trinca(6,0,2)
-    trinca30 = Trinca(6,0,3)
-    trinca31 = Trinca(6,0,5)
-    trinca32 = Trinca(6,0,8)
-    lista1 = [trinca1, trinca2, trinca30, trinca31, trinca32]
-
-    #1=>(6,1)=[2, 3, 5, 6, 8, 9]
-    trinca4 = Trinca(6,1,2)
-    trinca5 = Trinca(6,1,3)
-    trinca6 = Trinca(6,1,5)
-    trinca70 = Trinca(6,1,6)
-    trinca71 = Trinca(6,1,8)
-    trinca72 = Trinca(6,1,9)
-    lista2 = [trinca4, trinca5, trinca6, trinca70, trinca71, trinca72] 
-
-    #2=>(6,2)=[1, 2, 3, 5, 6, 9]
-    trinca8 = Trinca(6,2,1)
-    trinca9 = Trinca(6,2,2)
-    trinca10 = Trinca(6,2,3)
-    trinca101 = Trinca(6,2,5)
-    trinca102 = Trinca(6,2,6)
-    trinca103 = Trinca(6,2,9)
-    lista3 = [trinca8, trinca9, trinca10, trinca101, trinca102, trinca103] 
-
-    #3=>(6,3)=[9, 4, 5]
-    trinca11 = Trinca(6,3,9)
-    trinca12 = Trinca(6,3,4)
-    trinca13 = Trinca(6,3,5)
-    lista4 = [trinca11, trinca12, trinca13] 
-
-    #4=>(6,4)=[1, 5, 6]
-    trinca15 = Trinca(6,4,1)
-    trinca16 = Trinca(6,4,5)
-    trinca17 = Trinca(6,4,6)
-    lista5 = [trinca15, trinca16, trinca17] 
-
-    #5=>(6,5)=[8, 1, 4, 5]
-    trinca18 = Trinca(6,5,8)
-    trinca19 = Trinca(6,5,1)
-    trinca20 = Trinca(6,5,4)
-    trinca21 = Trinca(6,5,5)
-    lista6 = [trinca18, trinca18, trinca20, trinca21] 
-
-    #6=>(6,7)=[1, 2, 3, 4, 8, 9]
-    trinca22 = Trinca(6,7,1)
-    trinca23 = Trinca(6,7,2)
-    trinca24 = Trinca(6,7,3)
-    trinca25 = Trinca(6,7,4)
-    trinca26 = Trinca(6,7,8)
-    trinca27 = Trinca(6,7,9)
-    lista7 = [trinca22, trinca23, trinca24, trinca25, trinca26, trinca27] 
-
-    #7=>(6,8)=[1, 2, 4, 9]
-    trinca28 = Trinca(6,8,1)
-    trinca29 = Trinca(6,8,2)
-    trinca30 = Trinca(6,8,4)
-    trinca31 = Trinca(6,8,9)
-    lista8 = [trinca28, trinca29, trinca30, trinca31] 
-
-    lista_combina_lista_e_lista2 = monta_arvore(lista1, lista2, False)
-    lista_combina_lista12_com_lista3 = monta_arvore(lista_combina_lista_e_lista2, lista3, False)
-    lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
-    lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
-    lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
-    lista_combina_lista123456_com_lista7 = monta_arvore(lista_combina_lista12345_com_lista6, lista7, False)
-    lista_combina_lista1234567_com_lista8 = monta_arvore(lista_combina_lista123456_com_lista7, lista8, False)
-
-    print(f'Total de registros: {len(lista_combina_lista1234567_com_lista8)}')
-
-    return lista_combina_lista1234567_com_lista8
-# ====================================
-# ====================================
-def retorno_linha7(matriz_entrada):
-    '''
-    0=>(7,0)=[8, 1, 2, 5]  |=> Trincas 4 |=> 
-    1=>(7,2)=[1, 2, 5, 9]  |=> Trincas 4 |=> 
-    2=>(7,3)=[9, 4, 5]  |=> Trincas 3 |=> 
-    3=>(7,4)=[1, 5]  |=> Trincas 2 |=> 
-    4=>(7,6)=[8, 1, 2, 9]  |=> Trincas 4 |=> 
-    5=>(7,7)=[1, 2, 4, 8, 9]  |=> Trincas 5 |=> =>tipo <class 'int'> 0
-    '''
-    print(f'\nAnalisando a Linha 7: ', end='')
-
-    #0=>(7,0)=[8, 1, 2, 5]
-    trinca1 = Trinca(7,0,8)
-    trinca2 = Trinca(7,0,1)
-    trinca3 = Trinca(7,0,2)
-    trinca4 = Trinca(7,0,5)
-    lista1 = [trinca1, trinca2, trinca3, trinca4]
-
-    #1=>(7,2)=[1, 2, 5, 9]
-    trinca5 = Trinca(7,2,1)
-    trinca6 = Trinca(7,2,2)
-    trinca7 = Trinca(7,2,5)
-    trinca8 = Trinca(7,2,9)
-    lista2 = [trinca5, trinca6, trinca7, trinca8] 
-
-    #2=>(7,3)=[9, 4, 5]
-    trinca9 = Trinca(7,3,9)
-    trinca10 = Trinca(7,3,4)
-    trinca11 = Trinca(7,3,5)
-    lista3 = [trinca9, trinca10, trinca11] 
-
-    #3=>(7,4)=[1, 5] 
-    trinca12 = Trinca(7,4,1)
-    trinca13 = Trinca(7,4,5)
-    lista4 = [trinca12, trinca13] 
-
-    #4=>(7,6)=[8, 1, 2, 9]
-    trinca14 = Trinca(7,6,8)
-    trinca15 = Trinca(7,6,1)
-    trinca16 = Trinca(7,6,2)
-    trinca17 = Trinca(7,6,9)
-    lista5 = [trinca14, trinca15, trinca16, trinca17] 
-
-    #5=>(7,7)=[1, 2, 4, 8, 9]
-    trinca18 = Trinca(7,7,1)
-    trinca19 = Trinca(7,7,2)
-    trinca20 = Trinca(7,7,4)
-    trinca21 = Trinca(7,7,8)
-    trinca22 = Trinca(7,7,9)
-    lista6 = [trinca18, trinca19, trinca20, trinca21, trinca22] 
-
-    lista_combina_lista_e_lista2 = monta_arvore(lista1, lista2, False)
-    lista_combina_lista12_com_lista3 = monta_arvore(lista_combina_lista_e_lista2, lista3, False)
-    lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
-    lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
-    lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
-
-    print(f'Total de registros: {len(lista_combina_lista12345_com_lista6)}')
-
-    return lista_combina_lista12345_com_lista6
-# ====================================
-# ====================================
-def retorno_linha8(matriz_entrada):
-    '''
-    0=>(8,0)=[8, 1, 3]  |=> Trincas 3 |=> 
-    1=>(8,2)=[1, 3, 6, 9]  |=> Trincas 4 |=> 
-    2=>(8,4)=[1, 6, 7]  |=> Trincas 3 |=> 
-    3=>(8,5)=[8, 1, 7]  |=> Trincas 3 |=> 
-    4=>(8,6)=[8, 1, 3, 9]  |=> Trincas 4 |=> 
-    5=>(8,7)=[8, 1, 3, 9]  |=> Trincas 4 |=> =>tipo <class 'int'> 0
-    '''
-    print(f'\nAnalisando a Linha 8: ', end='')
-
-    #0=>(8,0)=[8, 1, 3]
-    trinca1 = Trinca(8,0,8)
-    trinca2 = Trinca(8,0,1)
-    trinca3 = Trinca(8,0,3)
-    lista1 = [trinca1, trinca2, trinca3]
-
-    #1=>(8,2)=[1, 3, 6, 9]
-    trinca4 = Trinca(8,2,1)
-    trinca5 = Trinca(8,2,3)
-    trinca6 = Trinca(8,2,6)
-    trinca7 = Trinca(8,2,9)
-    lista2 = [trinca4, trinca5, trinca6, trinca7] 
-
-    #2=>(8,4)=[1, 6, 7]
-    trinca8 = Trinca(8,4,1)
-    trinca9 = Trinca(8,4,6)
-    trinca10 = Trinca(8,4,7)
-    lista3 = [trinca8, trinca9, trinca10] 
-
-    #3=>(8,5)=[8, 1, 7]
-    trinca11 = Trinca(8,5,8)
-    trinca12 = Trinca(8,5,1)
-    trinca13 = Trinca(8,5,7)    
-    lista4 = [trinca11, trinca12, trinca13] 
-
-    #4=>(8,6)=[8, 1, 3, 9]
-    trinca15 = Trinca(8,6,8)
-    trinca16 = Trinca(8,6,1)
-    trinca17 = Trinca(8,6,3)
-    trinca18 = Trinca(8,6,9)
-    lista5 = [trinca15, trinca16, trinca17, trinca18] 
-
-    #5=>(8,7)=[8, 1, 3, 9]
-    trinca19 = Trinca(8,7,8)
-    trinca20 = Trinca(8,7,1)
-    trinca21 = Trinca(8,7,3)
-    trinca22 = Trinca(8,7,9)
-    lista6 = [trinca19, trinca20, trinca21, trinca22] 
-
-    lista_combina_lista_e_lista2 = monta_arvore(lista1, lista2, False)
-    lista_combina_lista12_com_lista3 = monta_arvore(lista_combina_lista_e_lista2, lista3, False)
-    lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
-    lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
-    lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
-
-    print(f'Total de registros: {len(lista_combina_lista12345_com_lista6)}')
-
-    return lista_combina_lista12345_com_lista6
-# ====================================
-def retorno_linha1(matriz_entrada):
-    '''
-    Analisando a Linha 1
-    ====================================
-
-    0=>(1,0)=[2, 3, 5, 7]  |=> Trincas 4 |=> 
-    1=>(1,1)=[2, 3, 5]  |=> Trincas 3 |=> 
-    2=>(1,2)=[2, 3, 4, 5, 7]  |=> Trincas 5 |=> 
-    3=>(1,3)=[3, 4, 5, 7]  |=> Trincas 4 |=> 
-    4=>(1,6)=[1, 2, 3, 5, 8]  |=> Trincas 5 |=> 
-    5=>(1,7)=[1, 2, 3, 5, 8]  |=> Trincas 5 |=> 
-    6=>(1,8)=[1, 2]
-    '''
-    print(f'\nAnalisando a Linha 1: ', end='')
-
-    #0=>(1,0)=[2, 3, 5, 7]
-    trinca1 = Trinca(1,0,2)
-    trinca2 = Trinca(1,0,3)
-    trinca3 = Trinca(1,0,5)
-    trinca4 = Trinca(1,0,7)
-    lista1 = [trinca1, trinca2, trinca3, trinca4]
-
-    #1=>(1,1)=[2, 3, 5]
-    trinca5 = Trinca(1,1,2)
-    trinca6 = Trinca(1,1,3)
-    trinca7 = Trinca(1,1,5)
-    lista2 = [trinca5, trinca6, trinca7] 
-
-    #2=>(1,2)=[2, 3, 4, 5, 7]
-    trinca8 = Trinca(1,2,2)
-    trinca9 = Trinca(1,2,3)
-    trinca10 = Trinca(1,2,4)
-    trinca11 = Trinca(1,2,5)
-    trinca12 = Trinca(1,2,7)
-    lista3 = [trinca8, trinca9, trinca10, trinca11, trinca12] 
-
-    #3=>(1,3)=[3, 4, 5, 7]
-    trinca13 = Trinca(1,3,3)
-    trinca14 = Trinca(1,3,4)
-    trinca15 = Trinca(1,3,5)
-    trinca16 = Trinca(1,3,7)
-    lista4 = [trinca13, trinca14, trinca15, trinca16] 
-
-    #4=>(1,6)=[1, 2, 3, 5, 8]
-    trinca17 = Trinca(1,6,1)
-    trinca18 = Trinca(1,6,2)
-    trinca19 = Trinca(1,6,3)
-    trinca20 = Trinca(1,6,5)
-    trinca21 = Trinca(1,6,8)
-    lista5 = [trinca17, trinca18, trinca19, trinca20, trinca21] 
-
-    #5=>(1,7)=[1, 2, 3, 5, 8]
-    trinca22 = Trinca(1,7,1)
-    trinca23 = Trinca(1,7,2)
-    trinca24 = Trinca(1,7,3)
-    trinca25 = Trinca(1,7,5)
-    trinca26 = Trinca(1,7,8)
-    lista6 = [trinca22, trinca23, trinca24, trinca25, trinca26] 
-
-    #6=>(1,8)=[1, 2]
-    trinca27 = Trinca(1,8,1)
-    trinca28 = Trinca(1,8,2)
-    lista7 = [trinca27, trinca28] 
-
-    lista_combina_lista_e_lista2 = monta_arvore(lista1, lista2, False)
-    lista_combina_lista12_com_lista3 = monta_arvore(lista_combina_lista_e_lista2, lista3, False)
-    lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
-    lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
-    lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
-    lista_combina_lista123456_com_lista7 = monta_arvore(lista_combina_lista12345_com_lista6, lista7, False)
-
-    print(f'Total de registros: {len(lista_combina_lista123456_com_lista7)}')
-
-    return lista_combina_lista123456_com_lista7
-# ====================================
-def retorno_linha2(matriz_entrada):
-    '''
-    0=>(2,0)=[2, 3, 5]  |=> Trincas 3 |=> 
-    1=>(2,1)=[9, 2, 3, 5]  |=> Trincas 4 |=> 
-    2=>(2,2)=[2, 3, 4, 5, 9]  |=> Trincas 5 |=> 
-    3=>(2,4)=[1, 2, 3, 5]  |=> Trincas 4 |=> 
-    4=>(2,5)=[1, 2, 4, 5]  |=> Trincas 4 |=> 
-    5=>(2,6)=[1, 2, 3, 5, 6, 9]  |=> Trincas 6 |=> 
-    6=>(2,7)=[1, 2, 3, 5, 6, 9]  |=> Trincas 6 |=> =>tipo <class 'int'> 0
-    '''
-    print(f'\nAnalisando a Linha 2: ', end='')
-
-    #0=>(2,0)=[2, 3, 5]
-    trinca1 = Trinca(2,0,2)
-    trinca2 = Trinca(2,0,3)
-    trinca3 = Trinca(2,0,5)
-    lista1 = [trinca1, trinca2, trinca3]
-
-    #1=>(2,1)=[9, 2, 3, 5]
-    trinca4 = Trinca(2,1,9)
-    trinca5 = Trinca(2,1,2)
-    trinca6 = Trinca(2,1,3)
-    trinca7 = Trinca(2,1,5)
-    lista2 = [trinca4, trinca5, trinca6, trinca7] 
-
-    #2=>(2,2)=[2, 3, 4, 5, 9]
-    trinca8 = Trinca(2,2,2)
-    trinca9 = Trinca(2,2,3)
-    trinca10 = Trinca(2,2,4)
-    trinca11 = Trinca(2,2,5)
-    trinca12 = Trinca(2,2,9)
-    lista3 = [trinca8, trinca9, trinca10, trinca11, trinca12] 
-
-    #3=>(2,4)=[1, 2, 3, 5]
-    trinca13 = Trinca(2,4,1)
-    trinca14 = Trinca(2,4,2)
-    trinca15 = Trinca(2,4,3)
-    trinca16 = Trinca(2,4,5)
-    lista4 = [trinca13, trinca15, trinca15, trinca16] 
-
-    #4=>(2,5)=[1, 2, 4, 5]
-    trinca17 = Trinca(2,5,1)
-    trinca18 = Trinca(2,5,2)
-    trinca19 = Trinca(2,5,4)
-    trinca20 = Trinca(2,5,5)
-    lista5 = [trinca17, trinca18, trinca19, trinca20] 
-
-    #5=>(2,6)=[1, 2, 3, 5, 6, 9]
-    trinca21 = Trinca(2,6,1)
-    trinca22 = Trinca(2,6,2)
-    trinca23 = Trinca(2,6,3)
-    trinca24 = Trinca(2,6,5)
-    trinca25 = Trinca(2,6,6)
-    trinca26 = Trinca(2,6,9)
-    lista6 = [trinca21, trinca22, trinca23, trinca24, trinca25, trinca26] 
-
-    #6=>(2,7)=[1, 2, 3, 5, 6, 9]
-    trinca27 = Trinca(2,7,1)
-    trinca28 = Trinca(2,7,2)
-    trinca29 = Trinca(2,7,3)
-    trinca30 = Trinca(2,7,5)
-    trinca31 = Trinca(2,7,6)
-    trinca32 = Trinca(2,7,9)    
-    lista7 = [trinca27, trinca28, trinca29, trinca30, trinca31, trinca32] 
-
-    lista_combina_lista_e_lista2 = monta_arvore(lista1, lista2, False)
-    lista_combina_lista12_com_lista3 = monta_arvore(lista_combina_lista_e_lista2, lista3, False)
-    lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
-    lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
-    lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
-    lista_combina_lista123456_com_lista7 = monta_arvore(lista_combina_lista12345_com_lista6, lista7, False)
-
-    print(f'Total de registros: {len(lista_combina_lista123456_com_lista7)}')
-
-    return lista_combina_lista123456_com_lista7
+def retorno_linha_numero(numero_linha, matriz_entrada):
+    print(f'\nAnalisando a Linha {numero_linha}: ', end='')
+    lista_posicao_linha = retorna_posicoes_possibilidades_linha(numero_linha, matriz_entrada)
+
+    lista1 = []
+    lista2 = []
+    lista3 = []
+    lista4 = []
+    lista5 = []
+    lista6 = []
+    lista7 = []
+    lista8 = []
+
+    lista_final = multiplica_lista(lista_posicao_linha)
+    for k,posicao in enumerate(lista_posicao_linha):
+        lista_trincas = retorna_lista_trincas(posicao)
+
+        if k == 0:
+            for tr in lista_trincas:
+                lista1.append(tr)                                
+        if k == 1:
+            for tr in lista_trincas:
+                lista2.append(tr)
+        if k == 2:
+            for tr in lista_trincas:
+                lista3.append(tr)
+        if k == 3:
+            for tr in lista_trincas:
+                lista4.append(tr)
+        if k == 4:
+            for tr in lista_trincas:
+                lista5.append(tr)
+        if k == 5:
+            for tr in lista_trincas:
+                lista6.append(tr)
+        if k == 6:
+            for tr in lista_trincas:
+                lista7.append(tr)
+        if k == 7:
+            for tr in lista_trincas:
+                lista8.append(tr)
+
+    if len(lista8) > 0:
+        lista_combina_lista_e_lista2 = monta_arvore(lista1, lista2, False)
+        lista_combina_lista12_com_lista3 = monta_arvore(lista_combina_lista_e_lista2, lista3, False)
+        lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
+        lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
+        lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
+        lista_combina_lista123456_com_lista7 = monta_arvore(lista_combina_lista12345_com_lista6, lista7, False)
+        lista_combina_lista1234567_com_lista8 = monta_arvore(lista_combina_lista123456_com_lista7, lista8, False)
+
+        print(f'Total de registros: {len(lista_combina_lista1234567_com_lista8)}')
+        return lista_combina_lista1234567_com_lista8
+
+    if len(lista7) > 0:
+        lista_combina_lista_e_lista2 = monta_arvore(lista1, lista2, False)
+        lista_combina_lista12_com_lista3 = monta_arvore(lista_combina_lista_e_lista2, lista3, False)
+        lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
+        lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
+        lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
+        lista_combina_lista123456_com_lista7 = monta_arvore(lista_combina_lista12345_com_lista6, lista7, False)
+
+        print(f'Total de registros: {len(lista_combina_lista123456_com_lista7)}')
+        return lista_combina_lista123456_com_lista7
+
+    if len(lista6) > 0:
+        lista_combina_lista_e_lista2 = monta_arvore(lista1, lista2, False)
+        lista_combina_lista12_com_lista3 = monta_arvore(lista_combina_lista_e_lista2, lista3, False)
+        lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
+        lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
+        lista_combina_lista12345_com_lista6 = monta_arvore(lista_combina_lista1234_com_lista5, lista6, False)
+
+        print(f'Total de registros: {len(lista_combina_lista12345_com_lista6)}')
+        return lista_combina_lista12345_com_lista6
+
+    if len(lista5) > 0:
+        lista_combina_lista_e_lista2 = monta_arvore(lista1, lista2, False)
+        lista_combina_lista12_com_lista3 = monta_arvore(lista_combina_lista_e_lista2, lista3, False)
+        lista_combina_lista123_com_lista4 = monta_arvore(lista_combina_lista12_com_lista3, lista4, False)
+        lista_combina_lista1234_com_lista5 = monta_arvore(lista_combina_lista123_com_lista4, lista5, False)
+
+        print(f'Total de registros: {len(lista_combina_lista1234_com_lista5)}')
+        return lista_combina_lista1234_com_lista5
 # ====================================
 def imprime_arvore(lista_combinada):
     print(f'\n\nÁrvore => {len(lista_combinada)} registros: \n====================================')
