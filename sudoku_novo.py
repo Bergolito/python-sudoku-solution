@@ -61,14 +61,19 @@ def inicio():
     start = time.time()
     achou_solucao = False
     LOOPS = 1000
+    imprime_matriz_numerica(MATRIZ_ENTRADA_02,' MATRIZ ENTRADA ')
     for i in range(LOOPS):
         matriz_entrada = MATRIZ_ENTRADA_02
+
         mat, eh_valida = validacao(matriz_entrada)
         if eh_valida:
             achou_solucao = True
+            
             print('===========================================')
-            print(' Achou uma matriz válida na {}ª interação: {}'.format(i+1,mat))
+            print(f' Achou uma matriz válida na {(i+1)}ª interação: ')
             print('===========================================')
+
+            imprime_matriz_numerica(mat,' MATRIZ RESULTANTE ')
             break
             
     if not achou_solucao:
@@ -131,16 +136,12 @@ def imprime_matriz_numerica(matriz, mensagem):
 def analise_cam_horinzontal_01(matriz_entrada):
     print(f'\nAnalisando a camada horizontal 01 => \n')
 
-    #linha0 = retorno_linha0(matriz_entrada)
     linha0 = retorno_linha_numero(0, matriz_entrada)
     matrizes_validas_linha0 = retorna_lista_matrizes_validas(linha0, matriz_entrada)
 
-    #linha1 = retorno_linha1(matriz_entrada)
     linha1 = retorno_linha_numero(1, matriz_entrada)
     matrizes_validas_linha1 = retorna_lista_matrizes_validas(linha1, matriz_entrada)
     
-    # 34560 registro
-    #linha2 = retorno_linha2(matriz_entrada)
     linha2 = retorno_linha_numero(2, matriz_entrada)
     matrizes_validas_linha2 = retorna_lista_matrizes_validas(linha2, matriz_entrada)
 
@@ -157,15 +158,12 @@ def analise_cam_horinzontal_01(matriz_entrada):
 def analise_cam_horinzontal_02(matriz_entrada):
     print(f'\nAnalisando a camada horizontal 02 => \n')
 
-    #linha3 = retorno_linha3(matriz_entrada)
     linha3 = retorno_linha_numero(3, matriz_entrada)
     matrizes_validas_linha3 = retorna_lista_matrizes_validas(linha3, matriz_entrada)
 
-    #linha4 = retorno_linha4(matriz_entrada)
     linha4 = retorno_linha_numero(4, matriz_entrada)
     matrizes_validas_linha4 = retorna_lista_matrizes_validas(linha4, matriz_entrada)
     
-    #linha5 = retorno_linha5(matriz_entrada)
     linha5 = retorno_linha_numero(5, matriz_entrada)
 
     matrizes_validas_linha5 = retorna_lista_matrizes_validas(linha5, matriz_entrada)
@@ -183,15 +181,12 @@ def analise_cam_horinzontal_02(matriz_entrada):
 def analise_cam_horinzontal_03(matriz_entrada):
     print(f'\nAnalisando a camada horizontal 03 => \n')
 
-    #linha6 = retorno_linha6(matriz_entrada)
     linha6 = retorno_linha_numero(6, matriz_entrada)
     matrizes_validas_linha6 = retorna_lista_matrizes_validas(linha6, matriz_entrada)
 
-    #linha7 = retorno_linha7(matriz_entrada)
     linha7 = retorno_linha_numero(7, matriz_entrada)
     matrizes_validas_linha7 = retorna_lista_matrizes_validas(linha7, matriz_entrada)
     
-    #linha8 = retorno_linha8(matriz_entrada)
     linha8 = retorno_linha_numero(8, matriz_entrada)
     matrizes_validas_linha8 = retorna_lista_matrizes_validas(linha8, matriz_entrada)
 
@@ -201,7 +196,6 @@ def analise_cam_horinzontal_03(matriz_entrada):
     lista_combinada_mats_6e7_linha8 = monta_arvore(matrizes_validas_linhas_6e7, matrizes_validas_linha8, False)
     matrizes_validas_linhas_6e7_linha8 = retorna_lista_matrizes_validas(lista_combinada_mats_6e7_linha8, matriz_entrada)
 
-    #imprime_arvore(matrizes_validas_linhas_6e7_linha8)   
     print(f'\nCamada Horizontal 03 => {len(matrizes_validas_linhas_6e7_linha8)} Matrizes Válidas')
 
     return matrizes_validas_linhas_6e7_linha8
@@ -321,19 +315,20 @@ def monta_arvore(lista1, lista2, flg_imprimir):
 
     return lista_combina_lista_e_lista2_ajustada 
 # ====================================
+'''
 def retorna_analise_camada_horizontal(numero_camada, matriz_entrada):
     matrizes_validas_linha0, matrizes_validas_linha1, matrizes_validas_linha2 = retorna_matrizes_validas_camada_horizontal(numero_camada, matriz_entrada)
     
     lista_combinada_mats_linha0_linha1 = monta_arvore(matrizes_validas_linha0, matrizes_validas_linha1, False)
     matrizes_validas_linhas_0e1 = retorna_lista_matrizes_validas(lista_combinada_mats_linha0_linha1, matriz_entrada)
-    #imprime_arvore(matrizes_validas_linhas_0e1) 
 
     lista_combinada_mats_0e1_linha2 = monta_arvore(matrizes_validas_linhas_0e1, matrizes_validas_linha2, False)
     matrizes_validas_linhas_0e1_linha2 = retorna_lista_matrizes_validas(lista_combinada_mats_0e1_linha2, matriz_entrada)
-    #imprime_arvore(matrizes_validas_linhas_0e1_linha2)          
 
     return matrizes_validas_linhas_0e1_linha2
+'''
 # ====================================
+'''
 def retorna_matrizes_validas_camada_horizontal(camada, matriz_entrada):
 
     if camada == 1:
@@ -361,6 +356,7 @@ def retorna_matrizes_validas_camada_horizontal(camada, matriz_entrada):
 
     print(f'Total de combinacoes da camada {camada} = {tam1} * {tam2} * {tam3} = {(tam1*tam2*tam3)}')
     return matrizes_validas_linha0, matrizes_validas_linha1, matrizes_validas_linha2
+'''
 # ====================================
 def retorna_lista_matrizes_validas(lista_combinada_linha, matriz_entrada):
     matrizes_combinadas_validas = []
@@ -380,8 +376,6 @@ def retorna_lista_matrizes_validas(lista_combinada_linha, matriz_entrada):
                 contador_matrizes_combinadas_validas += 1
     return matrizes_combinadas_validas       
 # ====================================
-
-# ====================================
 def recebe_lista_retorna_trincas(item_lista):
     tokens = item_lista.split('(')
     tokens_list = []    
@@ -398,6 +392,7 @@ def recebe_lista_retorna_trincas(item_lista):
 
     return lista_trincas
 # ====================================
+'''
 def retorna_arvore_linha(numero_linha, matriz_entrada):
     linha = retorna_posicoes_possibilidades_linha(numero_linha, matriz_entrada)
     print(f'\nAnalisando a Linha {numero_linha}\n====================================')
@@ -436,6 +431,7 @@ def retorna_arvore_linha(numero_linha, matriz_entrada):
         print(str(it))    
 
     return lista_final1
+'''
 # ====================================
 def multiplica_lista(lista):
     lista_combinada = []
