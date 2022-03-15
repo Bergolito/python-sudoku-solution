@@ -5,16 +5,23 @@ import datetime
 from random import choice
 from collections import Counter
 
-from solucao_arvore_geral import Posicao_Possibilidades, Trinca, imprime_trincas, imprime_saida, imprime_saida_retorna_tam_lista
-from solucao_arvore_02_possibs import monta_arvore_02_possibilidades
-from solucao_arvore_03_possibs import monta_arvore_03_possibilidades
-from solucao_arvore_04_possibs import monta_arvore_04_possibilidades
-from solucao_arvore_05_possibs import monta_arvore_05_possibilidades
-from solucao_arvore_06_possibs import monta_arvore_06_possibilidades
-from solucao_arvore_07_possibs import monta_arvore_07_possibilidades
-
 CONJUNTO_COMPLETO = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
+class Posicao_Possibilidades():
+    def __init__(self, l, c, valores):
+        self.linha = l
+        self.coluna = c
+        self.possibilidades = valores
+    def __str__(self):
+        return '({},{})={}'.format(self.linha, self.coluna,self.possibilidades)
+# ====================================
+class Trinca():
+    def __init__(self, l, c, val):
+        self.linha = l
+        self.coluna = c
+        self.valor = val
+    def __str__(self):
+        return '({},{},{})'.format(self.linha, self.coluna,self.valor)
 # ====================================
 def retorna_date_time_string():
     x = datetime.datetime.now()
@@ -25,20 +32,6 @@ def exibe_tempo_processamento(start, end):
     hours, rem = divmod(end - start, 3600)
     minutes, seconds = divmod(rem, 60)
     print("\nTempo Total (HH:mm:ss) = {:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), seconds))
-# ====================================
-def seta_valores_inferidos(matriz_entrada, lista_trincas_inferencia):
-
-    # inferir valores com 100% de certeza 
-    for item_str in lista_trincas_inferencia:
-        trinca_formatada = item_str.replace('(','')
-        trinca_formatada = trinca_formatada.replace(')','')
-        tokens_trinca = trinca_formatada.split(',')
-
-        linha = int(tokens_trinca[0])
-        coluna = int(tokens_trinca[1])
-        valor = int(tokens_trinca[2])
-        matriz_entrada[linha][coluna] = valor
-        print('\n\n SETOU o valor {} na linha {} e na coluna {} \n\n'.format(valor, linha, coluna))
 # ====================================
 def validacao(matriz):
     
@@ -237,73 +230,6 @@ def mostra_elementos_diferentes_lista(lista_trincas):
         lista.append(str(trinca))
     return list(set(lista))
 # ====================================
-def mostra_estatisticas(matriz_matrizes_validas):
-
-    lista_trincas_inferencia = []
-
-    for indice_coluna in range(len(matriz_matrizes_validas[0])):
-        elementos_coluna = retorna_coluna_matriz(matriz_matrizes_validas, indice_coluna)
-        total_elementos = len(elementos_coluna)
-        trinca1 = ''
-        trinca2 = ''
-        trinca3 = ''
-        trinca4 = ''
-        cont_trinca1 = 0
-        cont_trinca2 = 0
-        cont_trinca3 = 0
-        cont_trinca4 = 0
-        for k,item in enumerate(elementos_coluna):
-
-            if k == 0:
-                trinca1 = str(elementos_coluna[0])
-                cont_trinca1 += 1
-
-            if k > 0:
-                if str(item) == trinca1:
-                    cont_trinca1 += 1
-
-                if str(item) != trinca1 and trinca2 == '' and trinca3 == '' and trinca4 == '':
-                    trinca2 = str(item)
-                    cont_trinca2 += 1
-
-                elif str(item) != trinca1 and trinca2 != '' and str(item) == trinca2:
-                    trinca2 = str(item)
-                    cont_trinca2 += 1
-
-                elif str(item) != trinca1 and trinca2 != '' and str(item) != trinca2:
-                    trinca3 = str(item)
-                    cont_trinca3 += 1
-
-                elif str(item) != trinca1 and trinca2 != '' and str(item) != trinca2 and trinca3 != '' and str(item) != trinca3:
-                    trinca4 = str(item)
-                    cont_trinca4 += 1
-
-        percent_trinca1 = (cont_trinca1/total_elementos)
-        percent_trinca2 = (cont_trinca2/total_elementos)
-        percent_trinca3 = (cont_trinca3/total_elementos)
-        percent_trinca4 = (cont_trinca4/total_elementos)
-
-        if percent_trinca1 == 1.0:
-            lista_trincas_inferencia.append(trinca1)
-        elif percent_trinca2 == 1.0:
-            lista_trincas_inferencia.append(trinca2)
-        elif percent_trinca3 == 1.0:
-            lista_trincas_inferencia.append(trinca3)
-        elif percent_trinca4 == 1.0:
-            lista_trincas_inferencia.append(trinca4)
-
-        #print(percent_trinca1, percent_trinca2, percent_trinca3, percent_trinca4)
-
-        print(' ================================ ', end='\n')
-        print(' Coluna {}'.format(indice_coluna),end='\n')
-        print(' Trinca 1 ({}) => {}%'.format(trinca1, percent_trinca1 * 100))
-        print(' Trinca 2 ({}) => {}%'.format(trinca2, percent_trinca2 * 100 ))
-        print(' Trinca 3 ({}) => {}%'.format(trinca3, percent_trinca3 * 100))
-        print(' Trinca 4 ({}) => {}%'.format(trinca4, percent_trinca4 * 100))
-    print(' ================================ ', end='\n')
-
-    return lista_trincas_inferencia  
-# ====================================
 def retorna_coluna_matriz(matrix, column_index):
     return [row[column_index] for row in matrix]
 # ====================================
@@ -314,3 +240,49 @@ def renorna_lista_trincas(posicao: Posicao_Possibilidades):
         lista_trincas.append(trinca)
     return lista_trincas
 # ====================================
+def retorna_trincas(posicao):
+    lista_trincas = []
+    num_possibilidades = len(posicao.possibilidades)
+    for i in range(0, num_possibilidades):
+        trinca = Trinca(posicao.linha, posicao.coluna, posicao.possibilidades[i])
+        lista_trincas.append(trinca)
+    return lista_trincas
+# ====================================
+def imprime_trincas(lista_possibilidades):
+    print('\nTrincas => [',end='')   
+    contador = 0    
+    for pp in lista_possibilidades:        
+        for tc in retorna_lista_trincas(pp):
+            contador += 1
+            print(tc,end='')
+    print('] Total => {}'.format(contador), end='')
+# ====================================
+def retorna_lista_trincas(posicao: Posicao_Possibilidades):
+    lista_trincas = []
+    for k,num in enumerate(posicao.possibilidades):
+        trinca = Trinca(posicao.linha, posicao.coluna, posicao.possibilidades[k])
+        lista_trincas.append(trinca)
+
+    return lista_trincas
+# ====================================
+def imprime_saida(lista_global):
+
+    for k, item1 in enumerate(lista_global):
+        print("\n[{}] -> ".format(k),end="")
+        for item2 in item1:
+            print(item2, end="")   
+# ====================================
+'''
+def imprime_saida_retorna_tam_lista(lista_global):
+    if(len(lista_global) > 200):
+        print('\nImpressao de árvore suprimida pois eh maior que 200')
+
+    if(len(lista_global) <= 200):
+        for k, item1 in enumerate(lista_global):
+            print("\n[{}] -> ".format(k),end="")
+            for item2 in item1:
+                print(item2, end="")
+    return (len(lista_global))       
+''' 
+# ====================================
+
