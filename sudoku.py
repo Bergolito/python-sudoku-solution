@@ -7,8 +7,6 @@ from collections import Counter
 
 from sudoku_utils import *
 
-#CONJUNTO_COMPLETO = {1, 2, 3, 4, 5, 6, 7, 8, 9}
-
 MATRIZ_ENTRADA_01 = np.array([
     [0, 0, 3, 0, 0, 0, 0, 0, 0],
     [0, 8, 0, 0, 1, 7, 3, 6, 0],

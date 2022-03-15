@@ -5,8 +5,6 @@ import datetime
 from random import choice
 from collections import Counter
 
-CONJUNTO_COMPLETO = {1, 2, 3, 4, 5, 6, 7, 8, 9}
-
 class Posicao_Possibilidades():
     def __init__(self, l, c, valores):
         self.linha = l
@@ -131,7 +129,9 @@ def retorna_qtd_possibs_celula(linha, coluna, matriz):
     elementos.extend(pega_elementos_coluna(coluna, matriz))
     elementos.extend(retorna_elementos_quadrante_linha_coluna(linha, coluna, matriz))
     conjunto_b = set(elementos)
-    return list(CONJUNTO_COMPLETO.difference(conjunto_b))
+
+    numeros = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+    return list(numeros.difference(conjunto_b))
 # ====================================
 def pega_elementos_linha(linha, matriz):
     elementos = []
@@ -271,18 +271,5 @@ def imprime_saida(lista_global):
         print("\n[{}] -> ".format(k),end="")
         for item2 in item1:
             print(item2, end="")   
-# ====================================
-'''
-def imprime_saida_retorna_tam_lista(lista_global):
-    if(len(lista_global) > 200):
-        print('\nImpressao de árvore suprimida pois eh maior que 200')
-
-    if(len(lista_global) <= 200):
-        for k, item1 in enumerate(lista_global):
-            print("\n[{}] -> ".format(k),end="")
-            for item2 in item1:
-                print(item2, end="")
-    return (len(lista_global))       
-''' 
 # ====================================
 
